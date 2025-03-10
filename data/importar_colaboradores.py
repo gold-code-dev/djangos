@@ -2,7 +2,7 @@ import os
 import django
 
 # Configuração do Django dentro do script
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tickets_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projeto_help.settings")
 django.setup()
 
 import pandas as pd
