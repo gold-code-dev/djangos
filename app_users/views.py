@@ -43,3 +43,33 @@ def logout_view(request):
         logout(request)  # Faz o logout
         return redirect('login')  # Redireciona para a tela de login
     return HttpResponseNotAllowed(['POST'])  # Bloqueia métodos como GET
+
+
+# novo aqui
+
+# views.py
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Escritorio, RelacaoColaborador
+
+
+@login_required
+def painel_view(request):
+    context = {}
+
+    # Verifica se é contador ou colaborador
+    if hasattr(request.user, 'escritorio'):  # O usuário é contador
+        escritorio = request.user.escritorio
+        colaboradores = RelacaoColaborador.objects.filter(escritorio=escritorio)
+        context['escritorio'] = escritorio
+        context['usuarios'] = [escritorio.contador] + [colaborador.colaborador for colaborador in colaboradores]
+
+    elif hasattr(request.user, 'colaboracao'):  # O usuário é colaborador
+        colaboracao = request.user.colaboracao
+        escritorio = colaboracao.escritorio
+        colaboradores = RelacaoColaborador.objects.filter(escritorio=escritorio)
+        context['escritorio'] = escritorio
+        context['usuarios'] = [escritorio.contador] + [colaborador.colaborador for colaborador in colaboradores]
+
+    return render(request, "painel.html", context)

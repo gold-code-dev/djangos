@@ -13,6 +13,20 @@
         {% csrf_token %}
         <button type="submit">Desconectar</button>
     </form>
+    <br>
+    <br>
+    <br>
+
+<h1>Painel do Escritório</h1>
+
+<h2>Escritório: {{ escritorio }}</h2>
+
+<p>Usuários do Escritório:</p>
+<ul>
+    {% for usuario in usuarios %}
+        <li>{{ usuario.first_name }} {{ usuario.last_name }}</li>
+    {% endfor %}
+</ul>
 
 </body>
 </html>
