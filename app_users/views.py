@@ -26,16 +26,16 @@ def login_view(request):
 
 
 # View para o painel (login obrigatório)
-@login_required  # Certifica que somente usuários autenticados podem acessar
-def painel_view(request):
-    return render(
-        request,
-        'app_users/painel.html',
-        {
-            'full_name': request.user.get_full_name,  # Nome do completo usuário
-            'email': request.user.email,  # Email do usuário
-        }
-    )
+# @login_required  # Certifica que somente usuários autenticados podem acessar
+# def painel_view(request):
+#     return render(
+#         request,
+#         'app_users/painel.html',
+#         {
+#             'full_name': request.user.get_full_name,  # Nome do completo usuário
+#             'email': request.user.email,  # Email do usuário
+#         }
+#     )
 
 
 def logout_view(request):
@@ -74,3 +74,23 @@ from .models import Escritorio, RelacaoColaborador
     #
     # return render(request, "painel.html", context)
 #
+
+@login_required
+def painel_view(request):
+    context = {}
+
+    # Verifique se é contador
+    if hasattr(request.user, 'escritorio'):  # Usuário é contador
+        escritorio = request.user.escritorio
+        context['tipo_usuario'] = 'contador'
+        context['usuarios'] = [escritorio.contador]
+
+    # Verifique se é colaborador
+    elif hasattr(request.user, 'colaboracao'):  # Usuário é colaborador
+        colaboracao = request.user.colaboracao
+        escritorio = colaboracao.escritorio
+        context['tipo_usuario'] = 'colaborador'
+        context['usuarios'] = [colaboracao.colaborador]
+
+    # Renderiza o painel com o contexto preenchido
+    return render(request, "app_users/painel.html", context)

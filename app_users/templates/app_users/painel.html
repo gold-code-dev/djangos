@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Bem-vindo ao Painel!</h1>
-    <p>Olá, {{ full_name }}</p>
+    <p>Olá, {{ usuario.email }}</p>
     <p>Seu email é: {{ email }}</p>
 
     <!-- Link para Desconectar -->
@@ -24,9 +24,10 @@
 <p>Usuários do Escritório:</p>
 <ul>
     {% for usuario in usuarios %}
-        <li>{{ usuario.first_name }} {{ usuario.last_name }}</li>
+        <li>{{ usuario.first_name }} {{ usuario.last_name }} {{ usuario.email }}</li>
     {% endfor %}
 </ul>
+
 
 </body>
 </html>
