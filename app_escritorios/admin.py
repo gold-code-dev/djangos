@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Escritorio
 
-# Register your models here.
+
+@admin.register(Escritorio)
+class EscritorioAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
