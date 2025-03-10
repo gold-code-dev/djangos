@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls), # nao vou usar admin
     path('', include('app_users.urls')),  # Incluímos as rotas do app_users
     # path('escritorios/', include('app_escritorios.urls')),  # Rotas do app_escritorios
 
