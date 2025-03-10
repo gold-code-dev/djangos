@@ -4,24 +4,17 @@
     <title>Painel</title>
 </head>
 <body>
-    <h1>Bem-vindo ao Painel!</h1>
-    <p>Olá, {{ usuario.email }}</p>
-    <p>Seu email é: {{ email }}</p>
-
     <!-- Link para Desconectar -->
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Desconectar</button>
     </form>
-    <br>
-    <br>
-    <br>
 
 <h1>Painel do Escritório</h1>
 
 <h2>Escritório: {{ escritorio }}</h2>
 
-<p>Usuários do Escritório:</p>
+<p>Usuário atual do Escritório:</p>
 <ul>
     {% for usuario in usuarios %}
         <li>{{ usuario.first_name }} {{ usuario.last_name }} {{ usuario.email }}</li>
