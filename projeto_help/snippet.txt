@@ -1,0 +1,83 @@
+Sistema de Tickets
+│
+├── Usuários
+│     ├── Contadores
+│     │     ├── Detalhes: Nome, Email, Escritório, etc.
+│     │     ├── Relacionamento: Muitos Colaboradores, Muitos Tickets
+│     │     └── Acesso: 
+│     │           - Ver e responder tickets do próprio escritório
+│     │           - Criar tasks (tarefas) ou comentar privadamente com seus colaboradores
+│     │           - Fazer pagamentos relacionados ao honorário ou taxas
+│     │
+│     ├── Colaboradores
+│     │     ├── Detalhes: Nome, Email, Escritório (Contador responsável)
+│     │     ├── Relacionamento: Um Contador, Muitos Tickets
+│     │     └── Acesso:
+│     │           - Criar, comentar e enviar tickets para o suporte
+│     │           - Acessar todos os tickets ligados ao escritório (mas sem permissões extras)
+│     │
+│     └── Suporte
+│           ├── Detalhes: Nome, Cargo, Setor de Suporte
+│           ├── Relacionamento: Trata todos os tickets do sistema
+│           └── Acesso:
+│                 - Criar tasks de atividades relacionadas a um ticket
+│                 - Responder ou interagir com todos os tickets (de qualquer escritório)
+│
+├── Tickets
+│     ├── Dados do Ticket
+│     │     ├── Título
+│     │     ├── Descrição
+│     │     ├── Relacionamentos:
+│     │     │     - Usuário Criador (contador ou colaborador)
+│     │     │     - Escritório (Contador vinculado)
+│     │     │     - Status (Aberto, Em Andamento, Resolvido, Fechado)
+│     │     │     - Tasks associadas ao ticket
+│     │     ├── Campos Específicos no Ticket:
+│     │           - Tipo de Ticket (Dúvida, Orçamento, etc.)
+│     │           - Arquivos Anexos (Upload de arquivos)
+│     │           - Histórico de Interações (ordem cronológica - comentários, alterações, etc.)
+│     │
+│     └── Funcionalidades:
+│           ├── Comentários:
+│           │     - Público (visível por todos do Escritório e o Suporte)
+│           │     - Privado (visível apenas pela equipe do escritório ou pelo suporte)
+│           ├── Tasks (Tarefas):
+│                 - Criar uma atividade relacionada ao ticket
+│                 - Agenda relacionada à task (com data e status)
+│
+├── Tarefas (Tasks)
+│     ├── Dados da Task
+│     │     ├── Título
+│     │     ├── Relacionamento com Ticket
+│     │     └── Data programada (ex.: prazo)
+│     ├── Atribuições:
+│           - Suporte pode criar tasks vinculadas ao ticket
+│           - Usuários do Escritório podem criar tasks para sua equipe e interagir
+│
+└── Agenda
+      ├── Relacionada às tasks (tarefas) de cada ticket
+      └── Visível nos tickets e acessível pelo Escritório + Suporte
+
+      ### **Fluxo de Ação dentro de um Ticket**
+Agora vou te detalhar **como será o fluxo de uso do ticket** e o que acontece no dia a dia.
+1. **Criação do Ticket:**
+    - Um colaborador ou contador cria um ticket com:
+        - Título, descrição e anexos (opcional).
+        - Tipo de ticket (Dúvida, Orçamento, etc.).
+        - Prioridade ou prazo (opcional).
+
+    - O ticket aparece na lista de tickets do **escritório contábil** e também para o **suporte**.
+
+2. **Interações no Ticket:**
+    - **Colaboradores/Contadores:**
+        - Podem comentar no ticket:
+            - Comentário público (visível para suporte e escritório).
+            - Comentário privado (somente para a equipe do escritório).
+
+    - **Suporte:**
+        - Pode responder aos comentários.
+        - Pode criar tasks no ticket (com agenda associada, ex.: "Dar retorno ao cliente em 2 dias").
+        - Pode enviar anexos com respostas relacionadas.
+
+3. **Tasks e Agenda:**
+    - São adicionadas ao ticket como atividades relacionadas.
