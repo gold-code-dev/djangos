@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zendesk Clone - Sistema de Tickets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 250px;
+            background: #1E1E2D;
+            color: white;
+            padding: 20px;
+        }
+        .sidebar h4 {
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background: #29293d;
+            border-radius: 5px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4>Sistema de Tickets</h4>
+        <a href="#" onclick="filtrarTickets('aberto')">🟢 Abertos</a>
+        <a href="#" onclick="filtrarTickets('progresso')">🟡 Em Progresso</a>
+        <a href="#" onclick="filtrarTickets('aguardando')">🟠 Aguardando Resposta</a>
+        <a href="#" onclick="filtrarTickets('resolvido')">🔵 Resolvidos</a>
+        <hr>
+        <button class="btn btn-success w-100" onclick="novoTicket()">+ Novo Ticket</button>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <h2>Tickets</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Responsável</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="ticketList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", carregarTickets);
+
+        // Carregar tickets do LocalStorage ao iniciar a página
+        function carregarTickets() {
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            renderizarTickets(tickets);
+        }
+
+        // Renderiza os tickets no corpo da tabela
+        function renderizarTickets(tickets) {
+            const tabela = document.getElementById("ticketList");
+            tabela.innerHTML = "";
+
+            if (tickets.length === 0) {
+                tabela.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center">Nenhum ticket encontrado.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tickets.forEach((ticket, index) => {
+                const statusColor = {
+                    "aberto": "success",
+                    "progresso": "warning",
+                    "aguardando": "danger",
+                    "resolvido": "primary"
+                }[ticket.status] || "secondary";
+
+                tabela.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${ticket.titulo}</td>
+                        <td>${ticket.responsavel || "Não atribuído"}</td>
+                        <td><span class="badge bg-${statusColor}">${ticket.status.toUpperCase()}</span></td>
+                        <td>
+                            <button class="btn btn-info btn-sm" onclick="visualizarTicket(${index})">Ver</button>
+                            <button class="btn btn-danger btn-sm" onclick="excluirTicket(${index})">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Filtrar tickets por status
+        function filtrarTickets(status) {
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            const ticketsFiltrados = tickets.filter(ticket => ticket.status === status);
+            renderizarTickets(ticketsFiltrados);
+        }
+
+        // Criar novo ticket
+        function novoTicket() {
+            const titulo = prompt("Digite o título do ticket:");
+            const descricao = prompt("Digite a descrição do ticket:");
+            const responsavel = prompt("Digite o responsável pelo ticket (opcional):");
+
+            if (!titulo || !descricao) {
+                alert("Título e descrição são obrigatórios!");
+                return;
+            }
+
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            tickets.push({
+                titulo,
+                descricao,
+                responsavel,
+                status: "aberto",
+                comentarios: [],
+                anexos: []
+            });
+
+            localStorage.setItem("tickets", JSON.stringify(tickets));
+            carregarTickets();
+        }
+
+        // Excluir ticket
+        function excluirTicket(index) {
+            const confirmacao = confirm("Tem certeza de que deseja excluir este ticket?");
+            if (!confirmacao) return;
+
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            tickets.splice(index, 1);
+
+            localStorage.setItem("tickets", JSON.stringify(tickets));
+            carregarTickets();
+        }
+
+        // Visualizar ticket no modal
+        function visualizarTicket(index) {
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            const ticket = tickets[index];
+
+            const novaDescricao = prompt("Atualize a descrição do ticket:", ticket.descricao);
+            if (novaDescricao !== null) {
+                ticket.descricao = novaDescricao;
+
+                // Atualizar status
+                const novoStatus = prompt(`Atualize o status do ticket (atual: ${ticket.status}):\n\nOpções: aberto, progresso, aguardando, resolvido`);
+                if (["aberto", "progresso", "aguardando", "resolvido"].includes(novoStatus)) {
+                    ticket.status = novoStatus;
+                } else {
+                    alert("Status inválido. O status permanecerá o mesmo.");
+                }
+
+                tickets[index] = ticket;
+                localStorage.setItem("tickets", JSON.stringify(tickets));
+                carregarTickets();
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
