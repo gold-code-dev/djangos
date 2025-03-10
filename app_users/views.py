@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 # View para exibir e processar login
@@ -34,3 +35,7 @@ def painel_view(request):
             'email': request.user.email,  # Email do usuário
         }
     )
+
+def logout_view(request):
+    logout(request)  # Remove a sessão do usuário atual
+    return redirect('login')  # Redireciona para a tela de login
