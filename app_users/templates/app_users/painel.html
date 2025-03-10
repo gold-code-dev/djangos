@@ -9,7 +9,10 @@
     <p>Seu email é: {{ email }}</p>
 
     <!-- Link para Desconectar -->
-    <a href="{% url 'logout' %}">Desconectar</a>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Desconectar</button>
+    </form>
 
 </body>
 </html>
