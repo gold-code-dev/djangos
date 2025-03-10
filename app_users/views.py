@@ -19,7 +19,7 @@ def login_view(request):
             return render(
                 request,
                 'app_users/login.html',
-                {'error': 'Credenciais inválidas'}
+                {'error': 'Senha ou email incorretos'}
             )
 
     return render(request, 'app_users/login.html')
@@ -32,7 +32,7 @@ def painel_view(request):
         request,
         'app_users/painel.html',
         {
-            'username': request.user.username,  # Nome do usuário
+            'full_name': request.user.get_full_name,  # Nome do completo usuário
             'email': request.user.email,  # Email do usuário
         }
     )
