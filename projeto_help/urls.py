@@ -6,6 +6,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app_users.urls')),  # Incluímos as rotas do app_users
+    # path('escritorios/', include('app_escritorios.urls')),  # Rotas do app_escritorios
+
 ]
 
 # Servir arquivos de mídia (como logomarcas) em DEBUG
