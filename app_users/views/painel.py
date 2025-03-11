@@ -1,3 +1,4 @@
+"""
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -27,3 +28,4 @@ def painel_view(request):
 
     # return render(request, "app_users/painel.html", context)
     return render(request, "app_users/painel/index.html", context)
+"""
