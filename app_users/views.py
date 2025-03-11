@@ -6,23 +6,23 @@ from django.http import HttpResponseNotAllowed
 
 
 # View para exibir e processar login
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('painel')  # Após login, redireciona para o painel
-        else:
-            return render(
-                request,
-                'app_users/login.html',
-                {'error': 'Senha ou email incorretos!'}
-            )
-
-    return render(request, 'app_users/login.html')
+# def login_view(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#
+#         if user is not None:
+#             login(request, user)
+#             return redirect('painel')  # Após login, redireciona para o painel
+#         else:
+#             return render(
+#                 request,
+#                 'app_users/login.html',
+#                 {'error': 'Senha ou email incorretos!'}
+#             )
+#
+#     return render(request, 'app_users/login.html')
 
 
 # View para o painel (login obrigatório)
@@ -38,12 +38,12 @@ def login_view(request):
 #     )
 
 
-def logout_view(request):
-    if request.method == 'POST':
-        logout(request)  # Faz o logout
-        return redirect('login')  # Redireciona para a tela de login
-    return HttpResponseNotAllowed(['POST'])  # Bloqueia métodos como GET
-
+# def logout_view(request):
+#     if request.method == 'POST':
+#         logout(request)  # Faz o logout
+#         return redirect('login')  # Redireciona para a tela de login
+#     return HttpResponseNotAllowed(['POST'])  # Bloqueia métodos como GET
+#
 
 # novo aqui
 
