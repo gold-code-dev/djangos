@@ -14,7 +14,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('painel')  # Após login, redireciona para o painel
+            return redirect('base')  # Após login, redireciona para o painel
         else:
             return render(
                 request,
