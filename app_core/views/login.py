@@ -18,8 +18,8 @@ def login_view(request):
         else:
             return render(
                 request,
-                'app_users/login.html',
+                'app_core/login.html',
                 {'error': 'Senha ou email incorretos!'}
             )
 
-    return render(request, 'app_users/login.html')
+    return render(request, 'app_core/login.html')

@@ -18,4 +18,4 @@ def base_view(request):
         'nome_completo': nome_completo,
         'first_name': first_name,  # Incluímos o primeiro nome no contexto
     }
-    return render(request, 'app_users/base.html', context)
+    return render(request, 'app_core/base.html', context)
