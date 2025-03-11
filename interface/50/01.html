@@ -3,183 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zendesk Clone - Sistema de Tickets</title>
+    <title>CRUD Sistema de Tickets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             display: flex;
             height: 100vh;
             overflow: hidden;
+            margin: 0;
         }
         .sidebar {
             width: 250px;
-            background: #1E1E2D;
+            background-color: #1E1E2D;
             color: white;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         .sidebar h4 {
             border-bottom: 1px solid #444;
             padding-bottom: 10px;
-            margin-bottom: 20px;
         }
-        .sidebar a {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .sidebar a:hover {
-            background: #29293d;
-            border-radius: 5px;
-        }
-        .badge-status {
-            margin-left: auto;
-            font-size: 12px;
+        .sidebar button {
+            width: 100%;
+            text-align: left;
         }
         .main-content {
             flex: 1;
-            padding: 20px;
             overflow-y: auto;
             background-color: #f9f9f9;
+            padding: 20px;
+            position: relative;
         }
-        .main-content h2 {
+        .hidden {
+            display: none;
+        }
+        .ticket-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ticket-form h3 {
             margin-bottom: 20px;
-        }
-        .empty-tickets {
-            text-align: center;
-            color: #888;
-            font-size: 16px;
-            margin-top: 50px;
         }
     </style>
 </head>
 <body>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <h4>Sistema de Tickets</h4>
-        <a href="#" onclick="filtrarTickets('aberto')">🟢 Abertos <span class="badge bg-success badge-status" id="countAberto">0</span></a>
-        <a href="#" onclick="filtrarTickets('pendente')">🟡 Pendentes <span class="badge bg-warning badge-status" id="countPendente">0</span></a>
-        <a href="#" onclick="filtrarTickets('fechado')">🔴 Fechados <span class="badge bg-danger badge-status" id="countFechado">0</span></a>
-        <hr>
-        <button class="btn btn-success w-100" onclick="novoTicket()">+ Novo Ticket</button>
+        <button class="btn btn-secondary" onclick="mostrarLista()">📋 Lista de Tickets</button>
+        <button class="btn btn-success" onclick="novoTicket()">+ Novo Ticket</button>
     </div>
 
     <!-- Área Principal -->
     <div class="main-content">
-        <h2>Tickets</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="ticketList"></tbody>
-        </table>
-        <p id="emptyMessage" class="empty-tickets">Nenhum ticket disponível.</p>
+        <!-- Tela de Lista -->
+        <div id="ticketListScreen">
+            <h2>Tickets</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="ticketList"></tbody>
+            </table>
+            <p id="emptyMessage" class="text-center text-muted">Nenhum ticket disponível.</p>
+        </div>
+
+        <!-- Tela de Novo Ticket -->
+        <div id="ticketFormScreen" class="hidden">
+            <form id="ticketForm" class="ticket-form">
+                <h3>💬 Novo Ticket</h3>
+                <div class="mb-3">
+                    <label for="ticketTitle" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="ticketTitle" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ticketDescription" class="form-label">Descrição</label>
+                    <textarea class="form-control" id="ticketDescription" rows="5" required></textarea>
+                </div>
+                <button type="button" class="btn btn-primary w-100" onclick="salvarTicket()">Salvar</button>
+                <button type="button" class="btn btn-secondary w-100 mt-2" onclick="mostrarLista()">Cancelar</button>
+            </form>
+        </div>
     </div>
 
     <script>
+        // Inicializa os dados do LocalStorage
         document.addEventListener("DOMContentLoaded", carregarTickets);
 
         function carregarTickets() {
-            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-            atualizarContadores(tickets);
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
             renderizarTickets(tickets);
         }
 
-        function atualizarContadores(tickets) {
-            const aberto = tickets.filter(t => t.status === 'aberto').length;
-            const pendente = tickets.filter(t => t.status === 'pendente').length;
-            const fechado = tickets.filter(t => t.status === 'fechado').length;
-
-            document.getElementById('countAberto').textContent = aberto;
-            document.getElementById('countPendente').textContent = pendente;
-            document.getElementById('countFechado').textContent = fechado;
-        }
-
         function renderizarTickets(tickets) {
-            const tabela = document.getElementById('ticketList');
-            const mensagemVazia = document.getElementById('emptyMessage');
-            tabela.innerHTML = '';
+            const tabela = document.getElementById("ticketList");
+            const mensagemVazia = document.getElementById("emptyMessage");
+            tabela.innerHTML = "";
 
             if (tickets.length === 0) {
-                mensagemVazia.style.display = 'block';
+                mensagemVazia.style.display = "block";
                 return;
             }
+            mensagemVazia.style.display = "none";
 
-            mensagemVazia.style.display = 'none';
             tickets.forEach((ticket, index) => {
-                const row = `<tr>
+                const linha = document.createElement("tr");
+                linha.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${ticket.titulo}</td>
-                    <td><span class="badge bg-${ticket.status === 'aberto' ? 'success' : ticket.status === 'pendente' ? 'warning' : 'danger'}">${ticket.status.toUpperCase()}</span></td>
+                    <td>${ticket.status}</td>
                     <td>
-                        <button class="btn btn-info btn-sm" onclick="visualizarTicket(${index})">Ver</button>
-                        <button class="btn btn-danger btn-sm" onclick="excluirTicket(${index})">Excluir</button>
+                        <button class="btn btn-sm btn-primary" onclick="visualizarTicket(${index})">Visualizar</button>
+                        <button class="btn btn-sm btn-danger" onclick="excluirTicket(${index})">Excluir</button>
                     </td>
-                </tr>`;
-                tabela.innerHTML += row;
+                `;
+                tabela.appendChild(linha);
             });
         }
 
         function novoTicket() {
-            const titulo = prompt('Digite o título do ticket:');
-            const descricao = prompt('Digite a descrição do ticket:');
+            document.getElementById("ticketListScreen").classList.add("hidden");
+            document.getElementById("ticketFormScreen").classList.remove("hidden");
+        }
+
+        function visualizarTicket(index) {
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            const ticket = tickets[index];
+            alert(`Título: ${ticket.titulo}\nDescrição: ${ticket.descricao}\nStatus: ${ticket.status}`);
+        }
+
+        function salvarTicket() {
+            const titulo = document.getElementById("ticketTitle").value;
+            const descricao = document.getElementById("ticketDescription").value;
 
             if (!titulo || !descricao) {
-                alert('Título e descrição são obrigatórios!');
+                alert("Por favor, preencha todos os campos!");
                 return;
             }
 
-            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-            tickets.push({ titulo, descricao, status: 'aberto' });
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            tickets.push({ titulo, descricao, status: "aberto" });
+            localStorage.setItem("tickets", JSON.stringify(tickets));
 
-            localStorage.setItem('tickets', JSON.stringify(tickets));
+            document.getElementById("ticketForm").reset();
+            mostrarLista();
             carregarTickets();
         }
 
         function excluirTicket(index) {
-            const confirmar = confirm('Tem certeza que deseja excluir este ticket?');
-            if (!confirmar) return;
-
-            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
+            const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
             tickets.splice(index, 1);
-
-            localStorage.setItem('tickets', JSON.stringify(tickets));
+            localStorage.setItem("tickets", JSON.stringify(tickets));
             carregarTickets();
         }
 
-        function visualizarTicket(index) {
-            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-            const ticket = tickets[index];
-            const novoStatus = prompt(`
-                Título: ${ticket.titulo}\n\nDescrição: ${ticket.descricao}\n\nSelecione o novo status (aberto, pendente ou fechado):`, ticket.status);
-
-            if (!['aberto', 'pendente', 'fechado'].includes(novoStatus)) {
-                alert('Status inválido!');
-                return;
-            }
-
-            ticket.status = novoStatus;
-            tickets[index] = ticket;
-
-            localStorage.setItem('tickets', JSON.stringify(tickets));
-            carregarTickets();
-        }
-
-        function filtrarTickets(status) {
-            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-            const filtrados = tickets.filter(ticket => ticket.status === status);
-            renderizarTickets(filtrados);
+        function mostrarLista() {
+            document.getElementById("ticketListScreen").classList.remove("hidden");
+            document.getElementById("ticketFormScreen").classList.add("hidden");
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
