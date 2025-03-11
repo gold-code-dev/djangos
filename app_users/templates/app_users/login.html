@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
+    <!-- Fonte Roboto do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+
     <style>
-        /* Estilização com a nova paleta de cores */
+        /* Aplicação da fonte e cores do design */
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #AEDDFF; /* Cor de fundo principal */
+            font-family: 'Roboto', Arial, sans-serif; /* Fonte padrão */
+            background-color: #AEDDFF; /* Fundo principal */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,17 +24,17 @@
             width: 100%;
             max-width: 400px;
             background-color: #FFFFFF; /* Fundo do formulário */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+            border-radius: 8px; /* Bordas arredondadas */
+            padding: 25px;
             box-sizing: border-box;
-            border: 1px solid #9BD4FF; /* Borda com a nova cor */
+            border: 1px solid #85CAFF; /* Bordas com azul claro */
         }
 
         h1 {
             text-align: center;
             font-size: 24px;
-            color: #007BFF; /* Azul para texto */
+            color: #1697F6; /* Azul forte para título */
             margin-bottom: 20px;
         }
 
@@ -38,26 +42,32 @@
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #333;
+            color: #1697F6; /* Azul forte para rótulos */
         }
 
         input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #9BD4FF; /* Borda azul clara */
+            border: 1px solid #85CAFF; /* Azul claro nas bordas */
             border-radius: 5px;
             box-sizing: border-box;
-            background-color: #F4FAFF; /* Leve fundo azul */
+            background-color: #F4FAFF; /* Fundo leve azul para os campos */
+        }
+
+        input:focus {
+            outline: none;
+            border: 1px solid #1697F6; /* Destaque ao focar no campo */
+            box-shadow: 0 0 5px #1697F6; /* Efeito leve no foco */
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #9BD4FF; /* Azul claro */
+            padding: 12px;
+            background-color: #1697F6; /* Azul forte */
             border: none;
             border-radius: 5px;
-            color: #FFFFFF; /* Cor do texto no botão */
+            color: #FFFFFF; /* Branco para o texto do botão */
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
@@ -65,7 +75,7 @@
         }
 
         button:hover {
-            background-color: #007BFF; /* Azul mais forte ao passar o mouse */
+            background-color: #85CAFF; /* Azul claro ao passar o mouse */
         }
 
         .error {
