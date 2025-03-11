@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sistema de Tickets{% endblock %}</title>
+    <title>{% block title %}Help Dani{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -50,13 +50,8 @@
         footer {
             background-color: #1E1E2D;
             color: white;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: auto;
-        }
-        .footer-light {
-            color: #d3d3d3;
-            font-size: 14px;
+            text-align: right;
+            padding: 5px 15px;
         }
     </style>
 </head>
@@ -65,7 +60,7 @@
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
-            <h4>Sistema de Tickets</h4>
+            <h4>Help Dani</h4>
             <a href="#">🟢 Recebidos <span class="badge bg-success badge-status">0</span></a>
             <a href="#">🟡 Enviados <span class="badge bg-warning badge-status">0</span></a>
             <a href="#">🔴 Em Elaboração <span class="badge bg-danger badge-status">0</span></a>
@@ -83,8 +78,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2023 Sistema de Tickets. Todos os direitos reservados.</p>
-        <p class="footer-light">Usuário logado: {{ nome_completo }}</p>
+        Usuário logado: {{ nome_completo }}
     </footer>
 
     <!-- Bootstrap JS -->
