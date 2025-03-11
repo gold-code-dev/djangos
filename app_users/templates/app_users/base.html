@@ -50,6 +50,10 @@
             font-size: 12px;
             color: #b0b0b0; /* Cor cinza clara para mais discrição */
         }
+        .btn-logout {
+            margin-top: 10px;
+            width: 100%; /* Mesma largura do botão "+ Novo Ticket" */
+        }
         .main-content {
             flex: 1;
             padding: 20px;
@@ -76,6 +80,14 @@
             <div class="user-info">
                 Login: {{ nome_completo }}
             </div>
+
+            <!-- Botão de Logout -->
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-logout">
+                    Deslogar {{ first_name }}
+                </button>
+            </form>
         </div>
 
         <!-- Main Content -->
