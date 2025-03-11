@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseNotAllowed
 
 
-def logout_view(request):
+def logout_view(request): # colocar que somente usuario logado pode deslogar? 
     if request.method == 'POST':
         logout(request)  # Faz o logout
         return redirect('login')  # Redireciona para a tela de login
