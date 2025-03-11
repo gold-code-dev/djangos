@@ -44,15 +44,20 @@
             margin-left: auto;
             font-size: 12px;
         }
-        .user-info {
-            margin-top: auto;
-            text-align: center;
-            font-size: 12px;
-            color: #b0b0b0; /* Cor cinza clara para mais discrição */
-        }
         .btn-logout {
             margin-top: 10px;
             width: 100%; /* Mesma largura do botão "+ Novo Ticket" */
+            background-color: #444; /* Cinza escuro discreto */
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .btn-logout:hover {
+            background-color: #555; /* Tom mais claro ao passar o mouse */
         }
         .main-content {
             flex: 1;
@@ -76,15 +81,10 @@
                 <button class="btn btn-success w-100">+ Novo Ticket</button>
             </div>
 
-            <!-- Informações de usuário -->
-            <div class="user-info">
-                Login: {{ nome_completo }}
-            </div>
-
             <!-- Botão de Logout -->
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-logout">
+                <button type="submit" class="btn btn-logout">
                     Deslogar {{ first_name }}
                 </button>
             </form>
