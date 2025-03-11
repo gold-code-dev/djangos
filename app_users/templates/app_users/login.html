@@ -1,22 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        /* Estilização básica */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}  <!-- Proteção contra ataques CSRF -->
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        {% if error %}
-            <p style="color: red;">{{ error }}</p>
-        {% endif %}
-        <button type="submit">Logar</button>
-    </form>
+    <div class="login-container">
+        <h1>Bem-vindo</h1>
+        <form method="post">
+            {% csrf_token %} <!-- Proteção contra ataques CSRF -->
+
+            <!-- Mostrar mensagem de erro quando existir -->
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <!-- Campo de Email -->
+            <label for="username">Email:</label>
+            <input type="email" id="username" name="username" placeholder="Digite seu email" required>
+
+            <!-- Campo de Senha -->
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+
+            <!-- Botão de Login -->
+            <button type="submit">Entrar</button>
+        </form>
+
+        <!-- Rodapé -->
+        <div class="footer">
+            <p>© {{ year|default:"2025" }} Help Danieli. Todos os direitos reservados.</p>
+        </div>
+    </div>
 </body>
 </html>
