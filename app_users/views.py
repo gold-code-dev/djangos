@@ -96,6 +96,7 @@ def painel_view(request):
     # Renderiza o painel com o contexto preenchido
     return render(request, "app_users/painel.html", context)
 """
+"""
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -123,3 +124,4 @@ def painel_view(request):
         context['usuarios'] = []  # Nenhum usuário relacionado
 
     return render(request, "app_users/painel.html", context)
+"""
