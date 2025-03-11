@@ -25,4 +25,5 @@ def painel_view(request):
         context['tipo_usuario'] = 'desconhecido'
         context['usuarios'] = []  # Nenhum usuário relacionado
 
-    return render(request, "app_users/painel.html", context)
+    # return render(request, "app_users/painel.html", context)
+    return render(request, "app_users/painel/index.html", context)
