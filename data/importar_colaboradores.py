@@ -7,7 +7,7 @@ django.setup()
 
 import pandas as pd
 from django.contrib.auth.models import User
-from app_users.models import RelacaoColaborador, Escritorio  # Importa os modelos
+from app_core.models import RelacaoColaborador, Escritorio  # Importa os modelos
 
 # FILE_PATH = "colaboradores.xlsx"
 FILE_PATH = "colaboradores_corrigido.xlsx"

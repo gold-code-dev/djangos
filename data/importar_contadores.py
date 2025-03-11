@@ -7,7 +7,7 @@ django.setup()
 
 import pandas as pd
 from django.contrib.auth.models import User
-from app_users.models import Escritorio  # Importa o modelo Escritorio
+from app_core.models import Escritorio  # Importa o modelo Escritorio
 
 # FILE_PATH = "contadores.xlsx"
 FILE_PATH = "contadores_corrigido.xlsx"
