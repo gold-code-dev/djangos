@@ -76,7 +76,7 @@
         .main-content {
             flex: 1;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #f9f9f9; /* Fundo branco */
             overflow-y: auto;
         }
     </style>
@@ -93,6 +93,7 @@
                 <a href="#">🔴 Em Elaboração <span class="badge bg-danger badge-status">0</span></a>
                 <hr>
                 <button class="btn btn-success w-100">+ Novo Ticket</button>
+                <p>Cor cinza</p> <!-- Texto indicando a cor da área da sidebar -->
             </div>
 
             <!-- Botão de Logout -->
@@ -106,6 +107,7 @@
 
         <!-- Main Content -->
         <div class="main-content">
+            <p>Cor branca</p> <!-- Texto indicando a cor da área principal -->
             {% block content %}
             <!-- Conteúdo dinâmico será inserido aqui -->
             {% endblock %}
