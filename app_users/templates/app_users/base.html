@@ -74,10 +74,15 @@
         }
 
         .main-content {
-            flex: 1;
+            flex-grow: 1; /* Garante que a main-content ocupe todo o espaço restante */
             padding: 20px;
-            background-color: #f9f9f9; /* Fundo branco */
+            background-color: #f9f9f9; /* Fundo branco ou cinza-claro */
             overflow-y: auto;
+            min-width: 0; /* Evita estouro de largura e espaço extra à direita */
+        }
+
+        .d-flex {
+            width: 100%; /* Garante que o pai (d-flex) ocupe toda a largura da tela */
         }
     </style>
 </head>
@@ -106,7 +111,6 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <p>Cor Cinza</p> <!-- Texto indicando a cor da área principal -->
             {% block content %}
             <!-- Conteúdo dinâmico será inserido aqui -->
             {% endblock %}
