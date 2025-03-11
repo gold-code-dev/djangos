@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* Estilização básica */
+        /* Estilização com a nova paleta de cores */
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #AEDDFF; /* Cor de fundo principal */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,17 +19,18 @@
         .login-container {
             width: 100%;
             max-width: 400px;
-            background-color: #fff;
+            background-color: #FFFFFF; /* Fundo do formulário */
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             padding: 20px;
             box-sizing: border-box;
+            border: 1px solid #9BD4FF; /* Borda com a nova cor */
         }
 
         h1 {
             text-align: center;
             font-size: 24px;
-            color: #333;
+            color: #007BFF; /* Azul para texto */
             margin-bottom: 20px;
         }
 
@@ -44,25 +45,27 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
+            border: 1px solid #9BD4FF; /* Borda azul clara */
             border-radius: 5px;
             box-sizing: border-box;
+            background-color: #F4FAFF; /* Leve fundo azul */
         }
 
         button {
             width: 100%;
             padding: 10px;
-            background-color: #007BFF;
+            background-color: #9BD4FF; /* Azul claro */
             border: none;
             border-radius: 5px;
-            color: white;
+            color: #FFFFFF; /* Cor do texto no botão */
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #007BFF; /* Azul mais forte ao passar o mouse */
         }
 
         .error {
@@ -105,7 +108,7 @@
 
         <!-- Rodapé -->
         <div class="footer">
-            <p>© {{ year|default:"2025" }} Help Danieli. Todos os direitos reservados.</p>
+            <p>© {{ year|default:"2023" }} Seu Sistema. Todos os direitos reservados.</p>
         </div>
     </div>
 </body>
