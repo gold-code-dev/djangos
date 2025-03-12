@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        .sidebar {
+            width: 80px;
+            background-color: #1E1E2D;
+            color: white;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar.collapsed {
+            width: 250px;
+        }
+        .sidebar button {
+            margin-bottom: 15px;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .section {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .comment-list, .attachment-list {
+            list-style: none;
+            padding: 0;
+        }
+        .comment {
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .attachment-list li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .badge-status {
+            font-size: 1.1em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .badge-status.open {
+            background: #28a745;
+            color: white;
+        }
+        .badge-status.pending {
+            background: #ffc107;
+            color: black;
+        }
+        .badge-status.closed {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-center">ST</h4> <!-- Abrev. de Sistema de Tickets -->
+        <button class="btn btn-secondary btn-sm" onclick="mostrarLista()">📋</button>
+        <button class="btn btn-success btn-sm" onclick="novoTicket()">＋</button>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <h2>Detalhe do Ticket</h2>
+        <div class="detail-container">
+            <!-- Informações Gerais -->
+            <div class="section">
+                <div class="section-header">
+                    <h4>Informações</h4>
+                    <span class="badge-status open">Aberto</span> <!-- Alterar a classe ou o texto dinamicamente -->
+                </div>
+                <p><strong>ID:</strong> #12345</p>
+                <p><strong>Empresa:</strong> Nome da Empresa</p>
+                <p><strong>Tipo:</strong> Alteração</p>
+                <p><strong>Data de Criação:</strong> 10/10/2023</p>
+            </div>
+
+            <!-- Comentários -->
+            <div class="section">
+                <div class="section-header">
+                    <h4>Comentários</h4>
+                    <button class="btn btn-sm btn-primary">＋ Adicionar</button>
+                </div>
+                <ul class="comment-list">
+                    <li class="comment">
+                        <p><strong>João:</strong> O problema está sendo resolvido.</p>
+                        <small class="text-muted">Adicionado em 11/10/2023</small>
+                    </li>
+                    <li class="comment">
+                        <p><strong>Maria:</strong> Precisa de mais informações.</p>
+                        <small class="text-muted">Adicionado em 12/10/2023</small>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Anexos -->
+            <div class="section">
+                <div class="section-header">
+                    <h4>Anexos</h4>
+                    <button class="btn btn-sm btn-primary">＋ Novo</button>
+                </div>
+                <ul class="attachment-list">
+                    <li>
+                        Documento.pdf
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </li>
+                    <li>
+                        Imagem.png
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Histórico ou Status Extra -->
+            <div class="section">
+                <h4>Histórico</h4>
+                <p>Alterado por João em 12/10/2023</p>
+                <p>Atribuído para Maria em 13/10/2023</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções para manipular telas (exemplo)
+        function mostrarLista() {
+            alert("Mostrar lista de tickets");
+        }
+
+        function novoTicket() {
+            alert("Criar novo ticket");
+        }
+    </script>
+</body>
+</html>
