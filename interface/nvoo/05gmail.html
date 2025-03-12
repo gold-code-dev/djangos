@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket - Estilo Gmail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #202124;
+            background-color: #f6f8fc;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .gmail-container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            overflow: hidden;
+        }
+
+        .gmail-toolbar {
+            display: flex;
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: #f9f9f9;
+        }
+
+        .gmail-toolbar-group {
+            display: flex;
+            margin-right: 16px;
+        }
+
+        .gmail-toolbar-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            margin-right: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #5f6368;
+        }
+
+        .gmail-toolbar-btn:hover {
+            background-color: rgba(32, 33, 36, 0.059);
+        }
+
+        .gmail-header {
+            padding: 16px 16px 8px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .gmail-subject {
+            font-size: 22px;
+            color: #202124;
+            margin-bottom: 16px;
+        }
+
+        .gmail-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .gmail-label {
+            font-size: 12px;
+            padding: 2px 12px;
+            border-radius: 4px;
+            background-color: #f1f3f4;
+            color: #444746;
+            display: flex;
+            align-items: center;
+            height: 20px;
+        }
+
+        .gmail-label.priority-high {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .gmail-label.priority-medium {
+            background-color: #fef7e0;
+            color: #ea8600;
+        }
+
+        .gmail-label.priority-low {
+            background-color: #e6f4ea;
+            color: #1e8e3e;
+        }
+
+        .gmail-thread {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gmail-message {
+            padding: 16px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .gmail-message-header {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .gmail-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #dadce0;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #5f6368;
+            flex-shrink: 0;
+        }
+
+        .gmail-message-info {
+            flex: 1;
+        }
+
+        .gmail-message-author {
+            font-size: 14px;
+            font-weight: bold;
+            color: #202124;
+        }
+
+        .gmail-message-meta {
+            font-size: 12px;
+            color: #5f6368;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .gmail-message-to {
+            color: #5f6368;
+            font-size: 12px;
+        }
+
+        .gmail-message-body {
+            font-size: 14px;
+            color: #202124;
+            margin-bottom: 16px;
+            padding-left: 56px;
+        }
+
+        .gmail-message-actions {
+            padding-left: 56px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .gmail-action-btn {
+            font-size: 14px;
+            background-color: #f1f3f4;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: #5f6368;
+            cursor: pointer;
+        }
+
+        .gmail-action-btn:hover {
+            background-color: #e8eaed;
+        }
+
+        .gmail-reply {
+            padding: 16px;
+        }
+
+        .gmail-reply-box {
+            padding: 12px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            min-height: 100px;
+            margin-bottom: 16px;
+        }
+
+        .gmail-reply-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .gmail-send-btn {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .gmail-send-btn:hover {
+            background-color: #1565c0;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+
+        .gmail-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #f1f3f4;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .gmail-status.open {
+            background-color: #e6f4ea;
+            color: #1e8e3e;
+        }
+
+        .gmail-status.pending {
+            background-color: #fef7e0;
+            color: #ea8600;
+        }
+
+        .gmail-status.closed {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .gmail-message-details {
+            font-size: 12px;
+            color: #5f6368;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .gmail-message-details:hover {
+            text-decoration: underline;
+        }
+
+        .gmail-attachments {
+            padding-left: 56px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .gmail-attachment {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #202124;
+            padding: 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            width: fit-content;
+        }
+
+        .gmail-attachment i {
+            margin-right: 8px;
+            color: #5f6368;
+        }
+    </style>
+</head>
+<body>
+    <div class="gmail-container">
+        <div class="gmail-toolbar">
+            <div class="gmail-toolbar-group">
+                <button class="gmail-toolbar-btn"><i class="bi bi-arrow-left"></i></button>
+                <button class="gmail-toolbar-btn"><i class="bi bi-archive"></i></button>
+                <button class="gmail-toolbar-btn"><i class="bi bi-trash"></i></button>
+                <button class="gmail-toolbar-btn"><i class="bi bi-envelope"></i></button>
+                <button class="gmail-toolbar-btn"><i class="bi bi-clock"></i></button>
+            </div>
+            <div class="gmail-toolbar-group">
+                <button class="gmail-toolbar-btn"><i class="bi bi-tag"></i></button>
+                <button class="gmail-toolbar-btn"><i class="bi bi-three-dots"></i></button>
+            </div>
+        </div>
+
+        <div class="gmail-header">
+            <div class="gmail-subject">Ticket #3421 - Implementação do módulo de autenticação</div>
+            <div class="gmail-labels">
+                <div class="gmail-label">Desenvolvimento</div>
+                <div class="gmail-label priority-medium">Média prioridade</div>
+                <div class="gmail-status open">Aberto</div>
+            </div>
+        </div>
+
+        <div class="gmail-thread">
+            <div class="gmail-message">
+                <div class="gmail-message-header">
+                    <div class="gmail-avatar">CS</div>
+                    <div class="gmail-message-info">
+                        <div class="gmail-message-author">Carlos Souza <span style="font-weight: normal;">&lt;carlos.souza@empresa.com&gt;</span></div>
+                        <div class="gmail-message-meta">
+                            <span>15/06/2023, 10:30</span>
+                            <span class="gmail-message-details">detalhes</span>
+                        </div>
+                        <div class="gmail-message-to">para equipe-dev</div>
+                    </div>
+                </div>
+
+                <div class="gmail-message-body">
+                    <p>Olá equipe,</p>
+                    <p>Estou abrindo este ticket para implementação do módulo de autenticação da nossa aplicação.</p>
+                    <p>Requisitos:</p>
+                    <ul>
+                        <li>Login usando e-mail e senha</li>
+                        <li>Recuperação de senha</li>
+                        <li>Autenticação de dois fatores</li>
+                        <li>Integração com OAuth (Google e Microsoft)</li>
+                    </ul>
+                    <p>Prazo para conclusão: 28/06/2023</p>
+                    <p>Por favor, atualizem o progresso à medida que avançarem na implementação.</p>
+                    <p>Atenciosamente,<br>Carlos</p>
+                </div>
+
+                <div class="gmail-attachments">
+                    <div class="gmail-attachment">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>especificacao_tecnica.pdf</span>
+                    </div>
+                    <div class="gmail-attachment">
+                        <i class="bi bi-file-earmark-code"></i>
+                        <span>modelo_autenticacao.js</span>
+                    </div>
+                </div>
+
+                <div class="gmail-message-actions">
+                    <button class="gmail-action-btn"><i class="bi bi-reply"></i> Responder</button>
+                    <button class="gmail-action-btn"><i class="bi bi-reply-all"></i> Responder a todos</button>
+                    <button class="gmail-action-btn"><i class="bi bi-arrow-right"></i> Encaminhar</button>
+                </div>
+            </div>
+
+            <div class="gmail-message">
+                <div class="gmail-message-header">
+                    <div class="gmail-avatar">MS</div>
+                    <div class="gmail-message-info">
+                        <div class="gmail-message-author">Maria Silva <span style="font-weight: normal;">&lt;maria.silva@empresa.com&gt;</span></div>
+                        <div class="gmail-message-meta">
+                            <span>17/06/2023, 14:15</span>
+                            <span class="gmail-message-details">detalhes</span>
+                        </div>
+                        <div class="gmail-message-to">para Carlos, equipe-dev</div>
+                    </div>
+                </div>
+
+                <div class="gmail-message-body">
+                    <p>Olá Carlos,</p>
+                    <p>Já iniciei a implementação do login básico e as telas foram concluídas. Estou agora trabalhando na funcionalidade de recuperação de senha.</p>
+                    <p>Tenho algumas dúvidas sobre os requisitos da autenticação de dois fatores. Podemos agendar uma breve reunião para discutir os detalhes?</p>
+                    <p>Obrigada,<br>Maria</p>
+                </div>
+
+                <div class="gmail-message-actions">
+                    <button class="gmail-action-btn"><i class="bi bi-reply"></i> Responder</button>
+                    <button class="gmail-action-btn"><i class="bi bi-reply-all"></i> Responder a todos</button>
+                    <button class="gmail-action-btn"><i class="bi bi-arrow-right"></i> Encaminhar</button>
+                </div>
+            </div>
+
+            <div class="gmail-message">
+                <div class="gmail-message-header">
+                    <div class="gmail-avatar">CS</div>
+                    <div class="gmail-message-info">
+                        <div class="gmail-message-author">Carlos Souza <span style="font-weight: normal;">&lt;carlos.souza@empresa.com&gt;</span></div>
+                        <div class="gmail-message-meta">
+                            <span>17/06/2023, 16:30</span>
+                            <span class="gmail-message-details">detalhes</span>
+                        </div>
+                        <div class="gmail-message-to">para Maria, equipe-dev</div>
+                    </div>
+                </div>
+
+                <div class="gmail-message-body">
+                    <p>Olá Maria,</p>
+                    <p>Ótimo progresso! Vamos agendar uma reunião para amanhã às 10h para discutir os detalhes da autenticação de dois fatores.</p>
+                    <p>Atenciosamente,<br>Carlos</p>
+                </div>
+
+                <div class="gmail-message-actions">
+                    <button class="gmail-action-btn"><i class="bi bi-reply"></i> Responder</button>
+                    <button class="gmail-action-btn"><i class="bi bi-reply-all"></i> Responder a todos</button>
+                    <button class="gmail-action-btn"><i class="bi bi-arrow-right"></i> Encaminhar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gmail-reply">
+            <div class="gmail-reply-box" contenteditable="true">
+
+            </div>
+            <div class="gmail-reply-actions">
+                <div>
+                    <button class="gmail-action-btn"><i class="bi bi-paperclip"></i></button>
+                    <button class="gmail-action-btn"><i class="bi bi-emoji-smile"></i></button>
+                </div>
+                <button class="gmail-send-btn">Enviar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+            color: rgb(33, 37, 41);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color, #f9f9f9);
+            color: var(--text-color, #212529);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            height: calc(100vh - 60px);
+        }
+
+        .left-column {
+            flex: 3;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .middle-column, .right-column {
+            flex: 6;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .section-card {
+            padding: 15px;
+            background: var(--card-bg, #fff);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card h4 {
+            font-size: 1.2rem;
+            color: var(--header-color, #333);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .timeline-table th, .timeline-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .timeline-table th {
+            background: #f4f4f4;
+            position: sticky;
+            top: 0;
+        }
+
+        .badge-status {
+            font-weight: bold;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .fixed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg, #fff);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .scrollable-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding: 10px;
+        }
+
+        .attachment-item, .comment {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 5px;
+        }
+
+        .add-button {
+            padding: 5px 10px;
+            font-size: 13px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+        .toggle-section {
+            cursor: pointer;
+            font-size: 14px;
+            color: #007bff;
+            margin-left: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Modo escuro */
+        .dark-mode {
+            --bg-color: #1e1e1e;
+            --text-color: #ffffff;
+            --card-bg: #2c2c2c;
+            --header-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggle-dark-mode" class="btn btn-sm btn-secondary" style="position: fixed; top: 10px; right: 10px;">
+        Modo Escuro
+    </button>
+
+    <div class="main-content">
+        <div class="detail-container">
+            <div class="left-column">
+                <div class="section-card">
+                    <h4>Ticket</h4>
+                    <p><strong>ID:</strong> #12345</p>
+                    <p><strong>Empresa:</strong> Nome da Empresa</p>
+                    <p><strong>Tipo:</strong> Alteração</p>
+                    <p><strong>Status:</strong> <span class="badge-status">Aberto</span></p>
+                    <p><strong>Data de Criação:</strong> 10/10</p>
+                </div>
+                <div class="section-card">
+                    <h4>Linha do Tempo</h4>
+                    <table class="timeline-table">
+                        <thead>
+                            <tr><th>Etapa</th><th>Previsão</th><th>Conclusão</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Análise</td><td>-</td><td>01/11</td></tr>
+                            <tr><td>Orçamento</td><td>-</td><td>05/11</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="middle-column">
+                <div class="section-card">
+                    <div class="fixed-header">
+                        <h4>Documentos</h4>
+                        <span class="toggle-section" onclick="toggleSection('documents')">[Esconder]</span>
+                        <button class="add-button">+ Adicionar</button>
+                    </div>
+                    <div class="scrollable-content" id="documents">
+                        <div class="attachment-item">Arquivo 1.pdf</div>
+                        <div class="attachment-item">Arquivo 2.docx</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="section-card">
+                    <div class="fixed-header">
+                        <h4>Comentários</h4>
+                        <span class="toggle-section" onclick="toggleSection('comments')">[Esconder]</span>
+                        <button class="add-button">+ Adicionar</button>
+                    </div>
+                    <div class="scrollable-content" id="comments">
+                        <div class="comment">Ticket aberto com sucesso.</div>
+                        <div class="comment">Precisamos dos documentos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(id) {
+            let section = document.getElementById(id);
+            let toggleText = document.querySelector(`[onclick="toggleSection('${id}')"]`);
+            if (section.classList.contains("hidden")) {
+                section.classList.remove("hidden");
+                toggleText.innerHTML = "[Esconder]";
+            } else {
+                section.classList.add("hidden");
+                toggleText.innerHTML = "[Mostrar]";
+            }
+        }
+
+        document.getElementById("toggle-dark-mode").addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+    </script>
+</body>
+</html>

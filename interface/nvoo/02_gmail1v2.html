@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Email</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f6f8fc;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #f6f8fc;
+            padding: 10px;
+            border-right: 1px solid #e1e1e1;
+        }
+
+        .compose-btn {
+            display: flex;
+            align-items: center;
+            background-color: #c2e7ff;
+            color: #001d35;
+            border-radius: 16px;
+            padding: 10px 24px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            width: 150px;
+        }
+
+        .compose-btn i {
+            margin-right: 10px;
+        }
+
+        .compose-btn:hover {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            background-color: #b4deff;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 0 16px 16px 0;
+            cursor: pointer;
+            color: #202124;
+            font-size: 0.875rem;
+        }
+
+        .nav-item i {
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .nav-item.active {
+            background-color: #d3e3fd;
+            font-weight: bold;
+        }
+
+        .nav-item:hover:not(.active) {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e1e1e1;
+            background-color: #f6f8fc;
+        }
+
+        .search-bar {
+            background-color: #eaf1fb;
+            border-radius: 8px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            max-width: 720px;
+            margin-right: 16px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            outline: none;
+            margin-left: 8px;
+            color: #202124;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .email-list {
+            width: 400px;
+            border-right: 1px solid #e1e1e1;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .email-list-header {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .email-list-header input[type="checkbox"] {
+            margin-right: 16px;
+        }
+
+        .email-item {
+            display: flex;
+            padding: 8px 16px;
+            border-bottom: 1px solid #f1f1f1;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .email-item:hover {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        .email-item.unread {
+            background-color: #f2f6fc;
+            font-weight: bold;
+        }
+
+        .email-item-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .email-item-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .email-sender {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .email-date {
+            font-size: 0.75rem;
+            color: #5f6368;
+            white-space: nowrap;
+        }
+
+        .email-subject {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .email-preview {
+            font-size: 0.875rem;
+            color: #5f6368;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .email-view {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background-color: #ffffff;
+        }
+
+        .email-header {
+            margin-bottom: 16px;
+        }
+
+        .email-subject-line {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+        }
+
+        .email-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #dadce0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .email-from {
+            flex: 1;
+        }
+
+        .email-from-name {
+            font-weight: 500;
+        }
+
+        .email-from-address {
+            color: #5f6368;
+            font-size: 0.875rem;
+        }
+
+        .email-body {
+            padding: 16px 0;
+            border-top: 1px solid #e1e1e1;
+            line-height: 1.5;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .email-view {
+                display: none;
+            }
+
+            .email-list {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 56px;
+            }
+
+            .sidebar span {
+                display: none;
+            }
+
+            .compose-btn {
+                width: auto;
+                padding: 12px;
+                justify-content: center;
+            }
+
+            .compose-btn i {
+                margin-right: 0;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 10px;
+            }
+
+            .nav-item i {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra Lateral -->
+        <div class="sidebar">
+            <button class="compose-btn">
+                <i class="bi bi-pencil"></i>
+                <span>Escrever</span>
+            </button>
+
+            <div class="nav-item active">
+                <i class="bi bi-inbox"></i>
+                <span>Caixa de entrada</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="bi bi-star"></i>
+                <span>Com estrela</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="bi bi-clock"></i>
+                <span>Adiados</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="bi bi-send"></i>
+                <span>Enviados</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="bi bi-file-earmark"></i>
+                <span>Rascunhos</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>Spam</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="bi bi-trash"></i>
+                <span>Lixeira</span>
+            </div>
+        </div>
+
+        <!-- Área de Conteúdo Principal -->
+        <div class="content-area">
+            <!-- Barra Superior -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Pesquisar e-mails">
+                </div>
+                <div>
+                    <i class="bi bi-gear ms-3" style="font-size: 1.2rem;"></i>
+                </div>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="main-content">
+                <!-- Lista de E-mails -->
+                <div class="email-list">
+                    <div class="email-list-header">
+                        <input type="checkbox">
+                        <i class="bi bi-arrow-clockwise ms-3"></i>
+                        <i class="bi bi-three-dots-vertical ms-3"></i>
+                    </div>
+
+                    <!-- Item de E-mail -->
+                    <div class="email-item unread">
+                        <input type="checkbox">
+                        <i class="bi bi-star mx-2"></i>
+                        <div class="email-item-content">
+                            <div class="email-item-top">
+                                <div class="email-sender">Maria Silva</div>
+                                <div class="email-date">13:45</div>
+                            </div>
+                            <div class="email-subject">Reunião de equipe amanhã</div>
+                            <div class="email-preview">Olá, gostaria de confirmar a reunião para amanhã às 14h na sala de conferência...</div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <input type="checkbox">
+                        <i class="bi bi-star mx-2"></i>
+                        <div class="email-item-content">
+                            <div class="email-item-top">
+                                <div class="email-sender">João Costa</div>
+                                <div class="email-date">Ontem</div>
+                            </div>
+                            <div class="email-subject">Documentação do projeto</div>
+                            <div class="email-preview">Segue em anexo a documentação atualizada do projeto conforme solicitado na...</div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <input type="checkbox">
+                        <i class="bi bi-star mx-2"></i>
+                        <div class="email-item-content">
+                            <div class="email-item-top">
+                                <div class="email-sender">Ana Oliveira</div>
+                                <div class="email-date">17 de jun</div>
+                            </div>
+                            <div class="email-subject">Relatório mensal</div>
+                            <div class="email-preview">Prezados, estou enviando o relatório mensal de atividades conforme solicitado...</div>
+                        </div>
+                    </div>
+
+                    <div class="email-item unread">
+                        <input type="checkbox">
+                        <i class="bi bi-star mx-2"></i>
+                        <div class="email-item-content">
+                            <div class="email-item-top">
+                                <div class="email-sender">Carlos Souza</div>
+                                <div class="email-date">16 de jun</div>
+                            </div>
+                            <div class="email-subject">Novo sistema de tickets</div>
+                            <div class="email-preview">Olá equipe, gostaríamos de apresentar o novo sistema de tickets que será implementado...</div>
+                        </div>
+                    </div>
+
+                    <div class="email-item">
+                        <input type="checkbox">
+                        <i class="bi bi-star mx-2"></i>
+                        <div class="email-item-content">
+                            <div class="email-item-top">
+                                <div class="email-sender">Departamento de TI</div>
+                                <div class="email-date">15 de jun</div>
+                            </div>
+                            <div class="email-subject">Manutenção programada</div>
+                            <div class="email-preview">Informamos que haverá manutenção programada dos servidores no próximo domingo...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualização de E-mail -->
+                <div class="email-view">
+                    <div class="email-header">
+                        <div class="email-subject-line">
+                            Reunião de equipe amanhã
+                        </div>
+                        <div class="email-meta">
+                            <div class="avatar">MS</div>
+                            <div class="email-from">
+                                <div class="email-from-name">Maria Silva <span style="font-weight: normal; font-size: 0.875rem;">&lt;maria.silva@empresa.com&gt;</span></div>
+                                <div class="email-from-address">para mim</div>
+                            </div>
+                            <div class="email-date-expanded">
+                                13:45 (há 2 horas)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-body">
+                        <p>Olá,</p>
+                        <p>Gostaria de confirmar a reunião para amanhã às 14h na sala de conferência principal.</p>
+                        <p>Segue a pauta:</p>
+                        <ul>
+                            <li>Atualização do projeto X</li>
+                            <li>Planejamento para o próximo trimestre</li>
+                            <li>Apresentação de novos recursos do sistema</li>
+                            <li>Tempo para perguntas e sugestões</li>
+                        </ul>
+                        <p>Por favor, confirme sua presença respondendo este e-mail.</p>
+                        <p>Atenciosamente,</p>
+                        <p>Maria Silva<br>
+                        Gerente de Projetos<br>
+                        Empresa XYZ<br>
+                        Tel: (11) 99999-9999</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

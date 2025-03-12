@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Tickets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Estilos gerais */
+        * {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 21px;
+            color: rgb(33, 37, 41);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: #f9f9f9;
+        }
+
+        /* Layout principal */
+        .app-container {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Barra de navegação superior */
+        .navbar {
+            height: 60px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0073ea;
+        }
+
+        .search-container {
+            position: relative;
+            width: 280px;
+        }
+
+        .search-input {
+            padding-left: 35px;
+            background-color: #f5f6f8;
+            border: 1px solid #dce0e6;
+            border-radius: 4px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #676879;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-right: 1px solid #dce0e6;
+            padding: 20px 0;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            position: sticky;
+            top: 60px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f5f6f8;
+        }
+
+        .menu-item.active {
+            background-color: #eaf7ff;
+            color: #0073ea;
+            font-weight: 500;
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Conteúdo principal */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Barra de filtros */
+        .filter-bar {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-button {
+            padding: 6px 12px;
+            background-color: #f5f6f8;
+            border: 1px solid #dce0e6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .filter-button:hover {
+            background-color: #eaf7ff;
+        }
+
+        /* Tabela de tickets */
+        .tickets-table {
+            width: 100%;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tickets-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tickets-table th {
+            background-color: #f5f6f8;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 500;
+            color: #676879;
+            border-bottom: 1px solid #dce0e6;
+            position: sticky;
+            top: 0;
+        }
+
+        .tickets-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #dce0e6;
+        }
+
+        .tickets-table tr:hover {
+            background-color: #f5f6f8;
+            cursor: pointer;
+        }
+
+        /* Status dos tickets */
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-block;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .status-open {
+            background-color: #c5f0c5;
+            color: #0e6245;
+        }
+
+        .status-progress {
+            background-color: #ffeca0;
+            color: #8b6504;
+        }
+
+        .status-review {
+            background-color: #d0e8ff;
+            color: #0073ea;
+        }
+
+        .status-closed {
+            background-color: #e6e9ef;
+            color: #676879;
+        }
+
+        .status-blocked {
+            background-color: #ffcece;
+            color: #d83a52;
+        }
+
+        /* Barra de progresso */
+        .progress-bar-custom {
+            height: 8px;
+            background-color: #e6e9ef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #00ca72;
+        }
+
+        /* Avatar do usuário */
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #0073ea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Prioridade */
+        .priority {
+            display: flex;
+            align-items: center;
+        }
+
+        .priority i {
+            margin-right: 5px;
+        }
+
+        .priority-high {
+            color: #d83a52;
+        }
+
+        .priority-medium {
+            color: #fdab3d;
+        }
+
+        .priority-low {
+            color: #00ca72;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 60px;
+            }
+
+            .menu-item span {
+                display: none;
+            }
+
+            .menu-item i {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-options {
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .tickets-table {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar superior -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">TicketFlow</a>
+
+            <div class="search-container ms-4 me-auto">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="form-control search-input" placeholder="Pesquisar...">
+            </div>
+
+            <div class="d-flex align-items-center">
+                <button class="btn btn-sm me-3" title="Ajuda">
+                    <i class="bi bi-question-circle"></i>
+                </button>
+                <button class="btn btn-sm me-3" title="Notificações">
+                    <i class="bi bi-bell"></i>
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
+                        <span class="avatar">JD</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                        <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+                        <li><a class="dropdown-item" href="#">Preferências</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <div class="app-container">
+        <!-- Menu lateral -->
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="menu-item active">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="menu-item">
+                    <i class="bi bi-ticket-perforated"></i>
+                    <span>Tickets</span>
+                </li>
+                <li class="menu-item">
+                    <i class="bi bi-folder"></i>
+                    <span>Projetos</span>
+                </li>
+                <li class="menu-item">
+                    <i class="bi bi-people"></i>
+                    <span>Equipes</span>
+                </li>
+                <li class="menu-item">
+                    <i class="bi bi-calendar"></i>
+                    <span>Calendário</span>
+                </li>
+                <li class="menu-item">
+                    <i class="bi bi-graph-up"></i>
+                    <span>Relatórios</span>
+                </li>
+                <li class="menu-item">
+                    <i class="bi bi-gear"></i>
+                    <span>Configurações</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Tickets</h1>
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus"></i> Novo Ticket
+                </button>
+            </div>
+
+            <!-- Barra de filtros -->
+            <div class="filter-bar">
+                <div class="filter-options">
+                    <div class="filter-button">
+                        <i class="bi bi-funnel"></i>
+                        <span>Filtrar</span>
+                    </div>
+                    <div class="filter-button">
+                        <i class="bi bi-sort-down"></i>
+                        <span>Ordenar</span>
+                    </div>
+                    <div class="filter-button">
+                        <i class="bi bi-eye"></i>
+                        <span>Visualização</span>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-download"></i>
+                        <span>Exportar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabela de tickets -->
+            <div class="tickets-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 30%">Título</th>
+                            <th style="width: 15%">Status</th>
+                            <th style="width: 15%">Responsável</th>
+                            <th style="width: 12%">Vencimento</th>
+                            <th style="width: 13%">Prioridade</th>
+                            <th style="width: 15%">Progresso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Ticket 1 -->
+                        <tr onclick="location.href='49.html'">
+                            <td>Implementar tela de login</td>
+                            <td><span class="status status-progress">Em Andamento</span></td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar">JD</div>
+                                    <span>João Dias</span>
+                                </div>
+                            </td>
+                            <td>15/09/2023</td>
+                            <td>
+                                <div class="priority priority-high">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Alta</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>60%</small>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Ticket 2 -->
+                        <tr onclick="location.href='49.html'">
+                            <td>Corrigir bug na exportação de relatórios</td>
+                            <td><span class="status status-open">Aberto</span></td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar" style="background-color: #00ca72">MS</div>
+                                    <span>Maria Silva</span>
+                                </div>
+                            </td>
+                            <td>22/09/2023</td>
+                            <td>
+                                <div class="priority priority-medium">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Média</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill" style="width: 20%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>20%</small>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Ticket 3 -->
+                        <tr onclick="location.href='49.html'">
+                            <td>Atualizar documentação da API</td>
+                            <td><span class="status status-review">Em Revisão</span></td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar" style="background-color: #ff642e">PF</div>
+                                    <span>Pedro Ferreira</span>
+                                </div>
+                            </td>
+                            <td>10/09/2023</td>
+                            <td>
+                                <div class="priority priority-low">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Baixa</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill" style="width: 90%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>90%</small>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Ticket 4 -->
+                        <tr onclick="location.href='49.html'">
+                            <td>Integração com API de pagamentos</td>
+                            <td><span class="status status-blocked">Bloqueado</span></td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar" style="background-color: #784bd1">AC</div>
+                                    <span>Ana Costa</span>
+                                </div>
+                            </td>
+                            <td>05/10/2023</td>
+                            <td>
+                                <div class="priority priority-high">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Alta</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill" style="width: 35%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>35%</small>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Ticket 5 -->
+                        <tr onclick="location.href='49.html'">
+                            <td>Redesenhar tela de dashboard</td>
+                            <td><span class="status status-closed">Finalizado</span></td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar" style="background-color: #fdab3d">RL</div>
+                                    <span>Rafael Lima</span>
+                                </div>
+                            </td>
+                            <td>01/09/2023</td>
+                            <td>
+                                <div class="priority priority-medium">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Média</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>100%</small>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Ticket 6 -->
+                        <tr onclick="location.href='49.html'">
+                            <td>Otimizar queries do banco de dados</td>
+                            <td><span class="status status-progress">Em Andamento</span></td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar">JD</div>
+                                    <span>João Dias</span>
+                                </div>
+                            </td>
+                            <td>20/09/2023</td>
+                            <td>
+                                <div class="priority priority-medium">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Média</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>45%</small>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS e Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

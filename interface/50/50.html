@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket Melhorado</title>
+
+    <!-- CDN Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CDN Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: rgb(33, 37, 41);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: #f9f9f9;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            height: calc(100vh - 60px);
+        }
+
+        .left-column {
+            flex: 3;
+            min-width: 250px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+
+        .middle-column, .right-column {
+            flex: 6;
+            min-width: 300px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .section-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transition: transform .2s ease, box-shadow .3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-card h4 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .fixed-header {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-radius: 8px 8px 0 0;
+            padding: 15px 15px 10px;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,.05);
+        }
+
+        .scrollable-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px 15px;
+            background: #fff;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .comment, .attachment-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .comment:hover, .attachment-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        @media (max-width: 768px) {
+            .detail-container {
+                flex-direction: column;
+            }
+
+            .left-column, .middle-column, .right-column {
+                position: relative;
+                width: 100%;
+                overflow-y: visible;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-content">
+    <div class="detail-container">
+
+        <!-- Coluna esquerda (info geral) -->
+        <div class="left-column">
+            <div class="section-card">
+                <h4>Informações Gerais</h4>
+                <div class="d-flex flex-column gap-2">
+                    <div><strong>Status:</strong> <span class="badge bg-success">Aberto</span></div>
+                    <div><strong>Prioridade:</strong> <span class="badge bg-warning">Média</span></div>
+                    <div><strong>Responsável:</strong> <a href="#">João Silva</a></div>
+                    <div><strong>Criado em:</strong> 23/01/2024</div>
+                    <div><strong>Categoria:</strong> Suporte Técnico</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna central (timeline detalhes) -->
+        <div class="middle-column">
+            <div class="section-card">
+                <h4>Detalhes do Ticket</h4>
+                <p>Descrição detalhada do ticket aqui.</p>
+            </div>
+
+            <div class="section-card mt-3">
+                <h4>Timeline</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Ação</th>
+                        <th>Usuário</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>24/01/2024 10:00</td>
+                        <td>Criação do ticket</td>
+                        <td>@ana</td>
+                    </tr>
+                    <!-- mais linhas aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Coluna direita (Comentários e Documentos) -->
+        <div class="right-column d-flex flex-column gap-3">
+
+            <div class="section-comments section-card d-flex flex-column flex-grow-1">
+                <div class="fixed-header d-flex justify-content-between align-items-center">
+                    <h4>Comentários</h4>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle"></i> Novo
+                    </button>
+                </div>
+                <div class="scrollable-content">
+                    <div class="comment">
+                        <strong>@maria</strong> <small class="text-muted">24/01 09:15</small>
+                        <p>Comentário aqui...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-documents section-card d-flex flex-column flex-grow-1">
+                <div class="fixed-header d-flex justify-content-between align-items-center">
+                    <h4>Anexos</h4>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="bi bi-paperclip"></i> Anexar
+                    </button>
+                </div>
+                <div class="scrollable-content">
+                    <div class="attachment-item d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-file-earmark-text-fill me-2"></i>
+                            <a href="#">relatorio.pdf</a>
+                        </div>
+                        <small class="text-muted">969 KB</small>
+                    </div>
+                    <!-- mais anexos aqui -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- CDN para JS Bootstrap (opcional, mas recomendado) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

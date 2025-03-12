@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket - Estilo Gmail</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f6f8fc;
+            color: #202124;
+            line-height: 1.5;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+
+        .ticket-header {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ticket-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 22px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .ticket-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: #5f6368;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background-color: rgba(95, 99, 104, 0.08);
+        }
+
+        .action-button i {
+            font-size: 20px;
+        }
+
+        .ticket-labels {
+            padding: 8px 16px;
+            display: flex;
+            gap: 8px;
+            background-color: #f3f3f3;
+            flex-wrap: wrap;
+        }
+
+        .label {
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: rgba(0, 0, 0, 0.08);
+            color: #202124;
+        }
+
+        .label-priority {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .label-status {
+            background-color: #e8f0fe;
+            color: #1967d2;
+        }
+
+        .label-type {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        .ticket-messages {
+            padding: 16px;
+        }
+
+        .message {
+            margin-bottom: 24px;
+            border-bottom: 1px solid #f1f3f4;
+            padding-bottom: 16px;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .message-sender {
+            display: flex;
+            align-items: center;
+        }
+
+        .sender-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e8eaed;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            font-weight: 500;
+        }
+
+        .sender-name {
+            font-weight: 500;
+            color: #202124;
+            margin-right: 8px;
+        }
+
+        .sender-email {
+            color: #5f6368;
+            font-size: 13px;
+        }
+
+        .message-date {
+            color: #5f6368;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+        }
+
+        .message-date i {
+            margin-left: 8px;
+            font-size: 16px;
+            color: #5f6368;
+        }
+
+        .message-content {
+            padding: 8px 0 8px 52px;
+            color: #202124;
+            font-size: 14px;
+        }
+
+        .message-attachments {
+            padding: 8px 0 8px 52px;
+        }
+
+        .attachment {
+            display: inline-block;
+            margin-right: 16px;
+            margin-bottom: 16px;
+            width: 180px;
+        }
+
+        .attachment-preview {
+            height: 120px;
+            background-color: #f8f9fa;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .attachment-preview i {
+            font-size: 36px;
+            color: #5f6368;
+        }
+
+        .attachment-name {
+            font-size: 13px;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .attachment-size {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .reply-section {
+            padding: 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .reply-box {
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .reply-input {
+            width: 100%;
+            min-height: 100px;
+            border: none;
+            resize: none;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #202124;
+            margin-bottom: 16px;
+        }
+
+        .reply-input:focus {
+            outline: none;
+        }
+
+        .reply-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .reply-toolbar {
+            display: flex;
+            gap: 12px;
+        }
+
+        .toolbar-button {
+            background: none;
+            border: none;
+            color: #5f6368;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .send-button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 4px;
+            font-family: 'Google Sans', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            background-color: #1765cc;
+        }
+
+        .ticket-sidebar {
+            padding: 16px;
+            border-top: 1px solid #e0e0e0;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar-section {
+            margin-bottom: 16px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .timeline-step {
+            width: 120px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .timeline-date {
+            width: 80px;
+            color: #5f6368;
+        }
+
+        .timeline-status {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .timeline-status.completed {
+            color: #137333;
+        }
+
+        .timeline-status.pending {
+            color: #ea8600;
+        }
+
+        .participants {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .participant {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            background-color: #e8eaed;
+            border-radius: 16px;
+            font-size: 13px;
+        }
+
+        .participant-avatar {
+            width: 20px;
+            height: 20px;
+            background-color: #dadce0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+            font-size: 10px;
+            color: #5f6368;
+            font-weight: 500;
+        }
+
+        .collapsible-section {
+            border-top: 1px solid #e0e0e0;
+            padding: 16px;
+        }
+
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .collapsible-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="ticket-header">
+            <h1 class="ticket-title">#12345 - Implementação de nova funcionalidade</h1>
+            <div class="ticket-actions">
+                <button class="action-button" title="Arquivar"><i class="fas fa-archive"></i></button>
+                <button class="action-button" title="Fechar ticket"><i class="fas fa-check"></i></button>
+                <button class="action-button" title="Mais opções"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </div>
+
+        <div class="ticket-labels">
+            <span class="label label-status">Aberto</span>
+            <span class="label label-type">Alteração</span>
+            <span class="label label-priority">Alta Prioridade</span>
+            <span class="label">Nome da Empresa</span>
+        </div>
+
+        <div class="ticket-messages">
+            <div class="message">
+                <div class="message-header">
+                    <div class="message-sender">
+                        <div class="sender-avatar">S</div>
+                        <div>
+                            <span class="sender-name">Suporte</span>
+                            <span class="sender-email">&lt;suporte@sistema.com&gt;</span>
+                        </div>
+                    </div>
+                    <div class="message-date">
+                        10/10/2023, 14:30
+                        <i class="fas fa-star-o"></i>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>Ticket aberto com sucesso. Em breve iniciaremos a análise.</p>
+                </div>
+            </div>
+
+            <div class="message">
+                <div class="message-header">
+                    <div class="message-sender">
+                        <div class="sender-avatar">C</div>
+                        <div>
+                            <span class="sender-name">Cliente</span>
+                            <span class="sender-email">&lt;cliente@empresa.com&gt;</span>
+                        </div>
+                    </div>
+                    <div class="message-date">
+                        10/10/2023, 15:10
+                        <i class="fas fa-star-o"></i>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>Obrigado. Preciso que este processo seja concluído até o final do mês.</p>
+                </div>
+            </div>
+
+            <div class="message">
+                <div class="message-header">
+                    <div class="message-sender">
+                        <div class="sender-avatar">M</div>
+                        <div>
+                            <span class="sender-name">Maria Silva</span>
+                            <span class="sender-email">&lt;maria@sistema.com&gt;</span>
+                        </div>
+                    </div>
+                    <div class="message-date">
+                        12/10/2023, 09:45
+                        <i class="fas fa-star-o"></i>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>Estou assumindo a análise deste ticket. Precisamos de alguns documentos adicionais para prosseguir.</p>
+                    <p>Por favor, envie o contrato social atualizado e a última alteração cont

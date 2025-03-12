@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket - Estilo Trello</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #172b4d;
+            margin: 0;
+            padding: 0;
+        }
+
+        .trello-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 768px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+        }
+
+        .trello-header {
+            padding: 16px;
+            border-bottom: 1px solid #dfe1e6;
+            position: relative;
+        }
+
+        .trello-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 8px 0;
+        }
+
+        .trello-id {
+            font-size: 14px;
+            color: #5e6c84;
+            margin-bottom: 16px;
+        }
+
+        .trello-section {
+            padding: 16px;
+            border-bottom: 1px solid #dfe1e6;
+        }
+
+        .trello-section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #5e6c84;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .trello-section-title i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .trello-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .trello-label {
+            height: 32px;
+            padding: 0 12px;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .trello-members {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .trello-member {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #dfe1e6;
+            margin-right: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #172b4d;
+        }
+
+        .trello-dates {
+            margin-bottom: 16px;
+        }
+
+        .trello-date-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .trello-date-item i {
+            margin-right: 8px;
+            color: #5e6c84;
+        }
+
+        .trello-date-label {
+            color: #5e6c84;
+            width: 80px;
+        }
+
+        .trello-description {
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .trello-checklist {
+            background-color: #f4f5f7;
+            border-radius: 3px;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+
+        .trello-checklist-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .trello-checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .trello-checklist-item input {
+            margin-right: 8px;
+        }
+
+        .trello-activity {
+            margin-top: 16px;
+        }
+
+        .trello-activity-item {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .trello-activity-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #dfe1e6;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #172b4d;
+            flex-shrink: 0;
+        }
+
+        .trello-activity-content {
+            flex: 1;
+        }
+
+        .trello-activity-author {
+            font-weight: 700;
+        }
+
+        .trello-activity-time {
+            color: #5e6c84;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .trello-activity-text {
+            margin-top: 4px;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .trello-add-comment {
+            display: flex;
+            margin-top: 24px;
+        }
+
+        .trello-add-comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #dfe1e6;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #172b4d;
+            flex-shrink: 0;
+        }
+
+        .trello-comment-input {
+            flex: 1;
+            border: 2px solid #dfe1e6;
+            border-radius: 3px;
+            padding: 8px 12px;
+            min-height: 36px;
+            box-shadow: none;
+        }
+
+        .trello-comment-input:focus {
+            border-color: #4c9aff;
+            box-shadow: 0 0 0 1px #4c9aff;
+            outline: none;
+        }
+
+        .trello-actions {
+            margin-top: 8px;
+        }
+
+        .trello-action-btn {
+            background-color: #091e420a;
+            border-radius: 3px;
+            color: #172b4d;
+            font-weight: 400;
+            padding: 6px 12px;
+            margin-right: 4px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .trello-action-btn:hover {
+            background-color: #091e4214;
+        }
+
+        .trello-action-btn.primary {
+            background-color: #0079bf;
+            color: white;
+        }
+
+        .trello-action-btn.primary:hover {
+            background-color: #026aa7;
+        }
+    </style>
+</head>
+<body>
+    <div class="trello-container">
+        <div class="trello-header">
+            <div class="trello-title">Implementação do módulo de autenticação</div>
+            <div class="trello-id">Ticket #3421</div>
+
+            <div class="trello-labels">
+                <div class="trello-label" style="background-color: #61bd4f;">Desenvolvimento</div>
+                <div class="trello-label" style="background-color: #f2d600;">Média prioridade</div>
+            </div>
+
+            <div class="trello-members">
+                <div class="trello-member">MS</div>
+                <div class="trello-member">JR</div>
+                <div class="trello-member">+</div>
+            </div>
+        </div>
+
+        <div class="trello-section">
+            <div class="trello-section-title">
+                <i class="bi bi-calendar"></i>Datas
+            </div>
+            <div class="trello-dates">
+                <div class="trello-date-item">
+                    <span class="trello-date-label">Criado:</span> 15/06/2023
+                </div>
+                <div class="trello-date-item">
+                    <span class="trello-date-label">Prazo:</span> 28/06/2023
+                </div>
+            </div>
+        </div>
+
+        <div class="trello-section">
+            <div class="trello-section-title">
+                <i class="bi bi-card-text"></i>Descrição
+            </div>
+            <div class="trello-description">
+                <p>Implementar o módulo de autenticação da aplicação com os seguintes requisitos:</p>
+                <ul>
+                    <li>Login usando e-mail e senha</li>
+                    <li>Recuperação de senha</li>
+                    <li>Autenticação de dois fatores</li>
+                    <li>Integração com OAuth (Google e Microsoft)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="trello-section">
+            <div class="trello-section-title">
+                <i class="bi bi-check2-square"></i>Checklist
+            </div>
+            <div class="trello-checklist">
+                <div class="trello-checklist-title">Requisitos</div>
+                <div class="trello-checklist-item">
+                    <input type="checkbox" checked> Implementação do login básico
+                </div>
+                <div class="trello-checklist-item">
+                    <input type="checkbox" checked> Criação de telas de login
+                </div>
+                <div class="trello-checklist-item">
+                    <input type="checkbox"> Recuperação de senha
+                </div>
+                <div class="trello-checklist-item">
+                    <input type="checkbox"> Autenticação de dois fatores
+                </div>
+                <div class="trello-checklist-item">
+                    <input type="checkbox"> Integração com OAuth
+                </div>
+                <div class="trello-checklist-item">
+                    <input type="checkbox"> Testes unitários
+                </div>
+            </div>
+        </div>
+
+        <div class="trello-section">
+            <div class="trello-section-title">
+                <i class="bi bi-chat-left-text"></i>Atividade
+            </div>
+            <div class="trello-activity">
+                <div class="trello-activity-item">
+                    <div class="trello-activity-avatar">MS</div>
+                    <div class="trello-activity-content">
+                        <div>
+                            <span class="trello-activity-author">Maria Silva</span>
+                            <span class="trello-activity-time">hoje às 14:32</span>
+                        </div>
+                        <div class="trello-activity-text">
+                            Login básico e telas concluídos. Iniciarei a implementação da recuperação de senha amanhã.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trello-activity-item">
+                    <div class="trello-activity-avatar">JR</div>
+                    <div class="trello-activity-content">
+                        <div>
+                            <span class="trello-activity-author">João Rodrigues</span>
+                            <span class="trello-activity-time">ontem às 16:05</span>
+                        </div>
+                        <div class="trello-activity-text">
+                            Adicionei documentação técnica sobre a integração OAuth no repositório.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trello-add-comment">
+                    <div class="trello-add-comment-avatar">EU</div>
+                    <textarea class="trello-comment-input" placeholder="Escreva um comentário..."></textarea>
+                </div>
+                <div class="trello-actions">
+                    <button class="trello-action-btn primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
