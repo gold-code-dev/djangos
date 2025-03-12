@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos base para layout */
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 80px;
+            background-color: #1E1E2D;
+            color: white;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        /* Layout flexível entre seções */
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Cada seção individual */
+        .section {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 350px; /* Limita a altura máxima */
+            overflow-y: auto; /* Scrollar se o conteúdo for muito */
+        }
+
+        .section h4 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* Comentários */
+        .comment {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 5px;
+        }
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        /* Anexos */
+        .attachment-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .badge-status {
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .badge-status.open {
+            background-color: #28a745;
+            color: white;
+        }
+
+        /* Botão flutuante */
+        .btn-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-center">ST</h4>
+        <button class="btn btn-secondary btn-sm" title="Lista de Tickets" onclick="mostrarLista()">📋</button>
+        <button class="btn btn-success btn-sm" title="Novo Ticket" onclick="novoTicket()">＋</button>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <h2>Detalhe do Ticket</h2>
+
+        <div class="detail-container">
+            <!-- Seção de Informações Gerais -->
+            <div class="section">
+                <h4>Informações</h4>
+                <p><strong>ID:</strong> #12345</p>
+                <p><strong>Empresa:</strong> Nome da Empresa</p>
+                <p><strong>Tipo:</strong> Alteração</p>
+                <p><strong>Status:</strong> <span class="badge-status open">Aberto</span></p>
+                <p><strong>Data de Criação:</strong> 10/10/2023</p>
+            </div>
+
+            <!-- Seção de Comentários -->
+            <div class="section">
+                <h4>Comentários</h4>
+                <div>
+                    <div class="comment">
+                        <p><strong>João:</strong> O problema está sendo resolvido.</p>
+                        <small class="text-muted">Adicionado em 11/10/2023</small>
+                    </div>
+                    <div class="comment">
+                        <p><strong>Maria:</strong> Precisa de mais informações.</p>
+                        <small class="text-muted">Adicionado em 12/10/2023</small>
+                    </div>
+                    <!-- Adicione mais comentários dinamicamente aqui -->
+                </div>
+            </div>
+
+            <!-- Seção de Anexos -->
+            <div class="section">
+                <h4>Anexos</h4>
+                <div>
+                    <div class="attachment-list">
+                        <span>Documento.pdf</span>
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </div>
+                    <div class="attachment-list">
+                        <span>Imagem.jpg</span>
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </div>
+                    <div class="attachment-list">
+                        <span>Relatório.xlsx</span>
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </div>
+                    <!-- Adicione mais anexos dinamicamente aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão de Adicionar Flutuante -->
+        <button class="btn btn-primary btn-float" onclick="adicionar()">＋ Adicionar</button>
+    </div>
+
+    <script>
+        function mostrarLista() {
+            alert("Mostrar lista de tickets.");
+        }
+
+        function novoTicket() {
+            alert("Criar novo ticket.");
+        }
+
+        function adicionar() {
+            alert("Adicionar novo conteúdo.");
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

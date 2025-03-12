@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Layout principal */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .section h4 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* Comentários */
+        .comment {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 5px;
+        }
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        /* Anexos */
+        .attachment-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        /* Timeline no Rodapé */
+        .timeline-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #1E1E2D;
+            color: white;
+        }
+        .timeline-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .timeline-step::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scaleX(0.9);
+            z-index: 0;
+        }
+        .timeline-step:last-child::after {
+            display: none;
+        }
+        .timeline-step.active span {
+            color: #28a745; /* Cor verde para indicar progresso */
+        }
+        .timeline-step span {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #f1f1f1;
+            color: #333;
+            border-radius: 30px;
+            font-size: 0.85em;
+            z-index: 1;
+            position: relative;
+        }
+        .timeline-step.active span {
+            background: #28a745; /* Cor verde para o passo ativo */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <h2>Detalhe do Ticket</h2>
+
+        <div class="detail-container">
+            <!-- Seção de Informações Gerais -->
+            <div class="section">
+                <h4>Informações</h4>
+                <p><strong>ID:</strong> #12345</p>
+                <p><strong>Empresa:</strong> Nome da Empresa</p>
+                <p><strong>Tipo:</strong> Alteração</p>
+                <p><strong>Status:</strong> <span class="badge-status open">Aberto</span></p>
+                <p><strong>Data de Criação:</strong> 10/10/2023</p>
+            </div>
+
+            <!-- Seção de Comentários -->
+            <div class="section">
+                <h4>Comentários</h4>
+                <div>
+                    <div class="comment">
+                        <p><strong>João:</strong> O problema está sendo resolvido.</p>
+                        <small class="text-muted">Adicionado em 11/10/2023</small>
+                    </div>
+                    <div class="comment">
+                        <p><strong>Maria:</strong> Precisa de mais informações.</p>
+                        <small class="text-muted">Adicionado em 12/10/2023</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Anexos -->
+            <div class="section">
+                <h4>Anexos</h4>
+                <div>
+                    <div class="attachment-list">
+                        <span>Documento.pdf</span>
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </div>
+                    <div class="attachment-list">
+                        <span>Imagem.jpg</span>
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </div>
+                    <div class="attachment-list">
+                        <span>Relatório.xlsx</span>
+                        <button class="btn btn-sm btn-secondary">Baixar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline (Rodapé) -->
+    <div class="timeline-container">
+        <div class="timeline-step active">
+            <span>Orçamento</span>
+        </div>
+        <div class="timeline-step active">
+            <span>Viabilidade</span>
+        </div>
+        <div class="timeline-step">
+            <span>DBE</span>
+        </div>
+        <div class="timeline-step">
+            <span>FCN</span>
+        </div>
+        <div class="timeline-step">
+            <span>Integrador</span>
+        </div>
+        <div class="timeline-step">
+            <span>Assinatura</span>
+        </div>
+        <div class="timeline-step">
+            <span>Enviado Junta Comercial</span>
+        </div>
+    </div>
+
+    <script>
+        function mostrarLista() {
+            alert("Mostrar lista de tickets.");
+        }
+
+        function novoTicket() {
+            alert("Criar novo ticket.");
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
