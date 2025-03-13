@@ -1,12 +1,13 @@
 @startuml
 entity Ticket {
     + id: UUID
-    + status: Status
     + nome_empresa: String
     + tipo: Tipo
-    + prazo_solicitado: DateTime
     + criado_por: UUID
     + criado_em: DateTime
+    + status: Status
+    + prazo_conclusao: DateTime
+    + urgencia_id: UUID
 }
 
 entity Tipo {
@@ -19,9 +20,16 @@ entity Tipo {
 entity Status {
     * Aberto
     * Andamento
-    * Concluído
+    * Concluido
+}
+
+entity Urgencia {
+    + id: UUID
+    + pq_da_urgencia: Text
+    + anexar_comprovante: File
 }
 
 Ticket --> Tipo
 Ticket --> Status
+Ticket }o--|| Urgencia : "pode ter"
 @enduml
