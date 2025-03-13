@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>{% block title %}Help Dani{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+    <!-- Conteúdo será inserido aqui -->
+    {% endblock %}
+    <br>
+
+    <!-- Botão de Logout -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Desconectar {{ first_name }}</button>
+    </form>
+
+</body>
+</html>

@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Painel</title>
-</head>
-<body>
-    <h1>Painel</h1>
+{% extends "app_core/base.html" %}
 
-    <!-- Botão de Logout -->
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Desconectar {{ first_name }}</button>
-    </form>
-</body>
-</html>
+{% block content %}
+<h1>Bem-vindo à minha página inicial!</h1>
+<p>Este é o conteúdo principal.</p>
+{% endblock %}
+
+
+
+
+
