@@ -1,0 +1,26 @@
+@startuml
+entity Ticket {
+    + id: UUID
+    + nome_empresa: String
+    + tipo: Tipo
+    + criado_por: UUID
+    + criado_em: DateTime
+    + status: Status
+}
+
+entity Tipo {
+    * Abertura
+    * Alteracao
+    * Transformacao
+    * Baixa
+}
+
+entity Status {
+    * Aberto
+    * Andamento
+    * Concluido
+}
+
+Ticket --> Tipo
+Ticket --> Status
+@enduml
