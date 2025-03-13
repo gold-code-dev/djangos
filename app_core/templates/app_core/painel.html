@@ -21,6 +21,17 @@
     {% endfor %}
 </ul>
 
+            </div>
+
+            <!-- Botão de Logout -->
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-logout">
+                    Deslogar {{ first_name }}
+                </button>
+            </form>
+        </div>
+
 
 </body>
 </html>

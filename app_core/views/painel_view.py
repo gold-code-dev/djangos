@@ -1,5 +1,5 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def painel_view(request):
-    return HttpResponse("Oieee")
+    return render(request, 'app_core/painel.html')
