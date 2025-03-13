@@ -1,11 +1,12 @@
 @startuml
 entity Ticket {
     + id: UUID
+    + status: Status
     + nome_empresa: String
     + tipo: Tipo
+    + prazo_solicitado: DateTime
     + criado_por: UUID
     + criado_em: DateTime
-    + status: Status
 }
 
 entity Tipo {
@@ -18,7 +19,7 @@ entity Tipo {
 entity Status {
     * Aberto
     * Andamento
-    * Concluido
+    * Concluído
 }
 
 Ticket --> Tipo
