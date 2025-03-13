@@ -27,9 +27,20 @@ entity Urgencia {
     + id: UUID
     + pq_da_urgencia: Text
     + anexar_comprovante: File
+    + qual_prazo_a_ser_comprumprido: xxx
+    + concorda_com_pagamento_extra_e_antecipado: xxx
+}
+
+entity Timeline {
+    + id: UUID
+    + ticket_id: UUID
+    + data_evento: DateTime
+    + descricao: Text
+    + criado_por: UUID
 }
 
 Ticket --> Tipo
 Ticket --> Status
 Ticket }o--|| Urgencia : "pode ter"
+Ticket ||--o{ Timeline : "possui eventos"
 @enduml
