@@ -1,19 +1,15 @@
 from django.urls import path
 from django.shortcuts import redirect
 from . import views
-from .views import criar_ticket_view  # Importe a função correta da view de tickets
-from .views import ticket_list
 
 urlpatterns = [
     # Rotas principais
-    path('login/', views.login_view, name='login'),  # Página de login
-    path('painel/', views.base_view, name='base'),  # Painel (após login)
-    path('logout/', views.logout_view, name='logout'),  # Logout
-    path("", lambda request: redirect("login"), name="home"),  # Redirecionar para login como padrão
+    path('login/', views.login_view, name='login'),  # Nome correspondente a "login.html"
+    # path('painel/', views.base_view, name='painel'),  # Nome correspondente a "painel.html"
+    path('logout/', views.logout_view, name='logout'),  # Não precisa de HTML, mas é consistente
+    path("", lambda request: redirect("login"), name="home"),  # Redirecionar como padrão para login
 
-
-    # Nova rota para ticket_list
-    path('tickets_list/', ticket_list, name='ticket_list'),
-
+    # Rotas relacionadas a tickets
+    path('tickets_list/', views.ticket_list, name='tickets_list'),  # Nome igual ao "tickets_list.html"
+    path('ticket_criar/', views.criar_ticket_view, name='ticket_criar'),  # Nome igual ao "ticket_criar.html"
 ]
-
