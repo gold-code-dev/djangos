@@ -1,5 +1,6 @@
 # views/__init__.py
 from .login_view import login_view
+from .painel_view import painel_view
 
 
 from .logout import logout_view
@@ -10,7 +11,7 @@ from .ticket_list import ticket_list
 
 __all__ = [
     "login_view",
-
+    "painel_view",
 
     "logout_view",
     "base_view",

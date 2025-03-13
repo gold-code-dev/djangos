@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     # Rotas principais
     path('login/', views.login_view, name='login'),  # Nome correspondente a "login.html"
-    # path('painel/', views.base_view, name='painel'),  # Nome correspondente a "painel.html"
+    path('painel/', views.painel_view, name='painel'),  # Nome correspondente a "painel.html"
     path('logout/', views.logout_view, name='logout'),  # Não precisa de HTML, mas é consistente
     path("", lambda request: redirect("login"), name="home"),  # Redirecionar como padrão para login
 
