@@ -4,10 +4,12 @@ from .logout import logout_view
 # from .painel import painel_view
 from .base import base_view
 from .ticket import criar_ticket_view
+from .ticket_list import ticket_list
 
 __all__ = [
     "login_view",
     "logout_view",
     "base_view",
     "criar_ticket_view",
+    "ticket_list"
 ]
