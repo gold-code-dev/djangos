@@ -1,21 +1,21 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 @login_required
 def painel_view(request):
     usuario = request.user
-    nome_completo = usuario.get_full_name()
+    nome_completo = usuario.get_full_name() or usuario.username  # Nome completo ou username
+    first_name = usuario.first_name or usuario.username  # Primeiro nome ou username
 
-    # Se o nome completo estiver em branco (o que costuma ser o padrão), use o username
-    if not nome_completo:
-        nome_completo = usuario.username
-
-    # Obter o primeiro nome do usuário
-    first_name = usuario.first_name or usuario.username  # Usa o primeiro nome; caso esteja em branco, usa o username
+    # Obter todos os usuários do escritório (exemplo, ajuste para seu modelo)
+    usuarios = User.objects.all()
 
     context = {
         'nome_completo': nome_completo,
-        'first_name': first_name,  # Incluímos o primeiro nome no contexto
+        'first_name': first_name,
+        'escritorio': "Escritório Modelo",  # Substitua por uma variável ou busca no banco de dados
+        'usuarios': usuarios,  # Incluímos a lista de usuários
     }
     return render(request, 'app_core/painel.html', context)

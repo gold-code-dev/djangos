@@ -3,15 +3,15 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseNotAllowed
 
 
-# View para exibir e processar login
 def login_view(request):
     if request.user.is_authenticated:
         # Redireciona para 'painel' se o usuário já estiver logado
         return redirect('painel')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        # Limpa e normaliza a entrada
+        username = request.POST.get('username', '').strip().lower()  # Remove espaços e transforma em minúsculas
+        password = request.POST.get('password', '').strip()  # Remove espaços
 
         if not username or not password:
             # Verificação de campos ausentes
@@ -21,6 +21,7 @@ def login_view(request):
                 {'error': 'Os campos de usuário e senha são obrigatórios!'}
             )
 
+        # Autentica o usuário com as credenciais fornecidas
         user = authenticate(request, username=username, password=password)
 
         if user is not None:

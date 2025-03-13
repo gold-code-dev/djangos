@@ -4,34 +4,21 @@
     <title>Painel</title>
 </head>
 <body>
-    <!-- Link para Desconectar -->
-    <form method="post" action="{% url 'logout' %}">
+    <h1>Painel do Escritório</h1>
+
+    <h2>Escritório: {{ escritorio }}</h2>
+
+    <p>Usuários do Escritório:</p>
+    <ul>
+        {% for usuario in usuarios %}
+            <li>{{ usuario.first_name }} {{ usuario.last_name }} - {{ usuario.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Botão de Logout -->
+    <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit">Desconectar</button>
+        <button type="submit">Desconectar {{ first_name }}</button>
     </form>
-
-<h1>Painel do Escritório</h1>
-
-<h2>Escritório: {{ escritorio }}</h2>
-
-<p>Usuário atual do Escritório:</p>
-<ul>
-    {% for usuario in usuarios %}
-        <li>{{ usuario.first_name }} {{ usuario.last_name }} {{ usuario.email }}</li>
-    {% endfor %}
-</ul>
-
-            </div>
-
-            <!-- Botão de Logout -->
-            <form method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-logout">
-                    Deslogar {{ first_name }}
-                </button>
-            </form>
-        </div>
-
-
 </body>
 </html>
