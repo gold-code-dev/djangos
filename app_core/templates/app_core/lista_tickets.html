@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Tickets</title>
+</head>
+<body>
+    <h1>Meus Tickets</h1>
+    <ul>
+    {% for ticket in tickets %}
+        <li>
+            {{ ticket.id }} - {{ ticket.tipo }} - {{ ticket.nome_empresa }} - Prazo: {{ ticket.prazo }}
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'criar_ticket' %}">Criar Novo Ticket</a>
+</body>
+</html>

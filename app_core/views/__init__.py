@@ -4,6 +4,7 @@ from .painel_view import painel_view
 from .logout_view import logout_view
 # from .ticket_new_view import ticket_new_view
 from .criar_ticket_view import criar_ticket
+from .lista_tickets_view import lista_tickets
 
 
 # from .painel import painel_view
@@ -14,8 +15,9 @@ __all__ = [
     "login_view",
     "painel_view",
     "logout_view",
-    "criar_ticket"
+    "criar_ticket",
     # "ticket_new_view",
+    "lista_tickets",
 
 
     # "criar_ticket_view",
