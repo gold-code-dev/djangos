@@ -6,11 +6,12 @@
     <title>Criar Ticket</title>
 </head>
 <body>
-    <h1>Criar Novo Ticket</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }} <!-- Renderiza o formulário -->
-        <button type="submit">Salvar Ticket</button>
-    </form>
+<h1>Criar Novo Ticket</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <!-- Renderiza o formulário -->
+    <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Cancelar</button>
+    <button type="submit" class="btn btn-success">Salvar</button>
+</form>
 </body>
 </html>
