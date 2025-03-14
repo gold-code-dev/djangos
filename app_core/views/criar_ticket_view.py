@@ -27,7 +27,7 @@ def criar_ticket(request):
                 ticket.escritorio = request.user.colaboracao.escritorio  # Colaborador
 
             ticket.save()  # Salva o ticket no banco
-            return redirect("lista_tickets")  # Redireciona para a lista de tickets
+            return redirect("listar_tickets")  # Redireciona para a lista de tickets
 
     else:
         form = TicketForm()  # Formulário vazio para GET (primeiro carregamento)
