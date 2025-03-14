@@ -29,7 +29,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Tipo</th>
-                    <th>Prazo</th> <!-- Coluna "Prazo" movida após "Tipo" -->
+                    <th>Prazo</th> <!-- Coluna "Prazo" após "Tipo" -->
                     <th>Nome da Empresa</th>
                     <th>Criado Por</th>
                     <th>Criado Em</th>
@@ -40,12 +40,16 @@
                     <tr>
                         <td>{{ ticket.id }}</td>
                         <td>{{ ticket.get_tipo_display }}</td>
-                        <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td> <!-- Coluna prazo após Tipo -->
+                        <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
 
                         <!-- Nome da Empresa com Limitação de Tamanho -->
                         <td>{{ ticket.nome_empresa|slice:":255" }}</td>
 
-                        <td>{{ ticket.criado_por.username }}</td>
+                        <!-- Exibe o Nome Completo do Criador -->
+                        <td>
+                            {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}
+                        </td>
+
                         <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
                     </tr>
                 {% endfor %}
