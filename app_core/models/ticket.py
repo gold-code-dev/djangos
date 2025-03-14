@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
+from django.core.exceptions import ValidationError
 
 
 class Ticket(models.Model):
@@ -16,6 +18,16 @@ class Ticket(models.Model):
     prazo = models.DateTimeField()
     criado_por = models.ForeignKey(User, on_delete=models.CASCADE)  # Relaciona ao usuário logado
     criado_em = models.DateTimeField(auto_now_add=True)  # Preenchido automaticamente com a data/hora da criação
+
+    def clean(self):
+        """Validação personalizada para o prazo."""
+        if self.prazo < now():
+            raise ValidationError("O prazo deve ser no futuro ou no presente.")  # Bloqueia data no passado
+
+    def save(self, *args, **kwargs):
+        """Executa a validação no momento de salvar o objeto."""
+        self.full_clean()  # Verifica todas as validações antes de salvar
+        super().save(*args, **kwargs)  # Salva o ticket no banco de dados
 
     def __str__(self):
         return f"Ticket {self.id} - {self.nome_empresa}"
