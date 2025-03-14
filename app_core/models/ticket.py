@@ -16,7 +16,7 @@ class Ticket(models.Model):
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
     nome_empresa = models.CharField(max_length=255)
     prazo = models.DateTimeField()
-    criado_por = models.ForeignKey(User, on_delete=models.CASCADE)  # Relaciona ao usuário logado
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE)  # Relaciona ao usuário logado # TODO deletar nunca
     criado_em = models.DateTimeField(auto_now_add=True)  # Preenchido automaticamente com a data/hora da criação
 
     def clean(self):
