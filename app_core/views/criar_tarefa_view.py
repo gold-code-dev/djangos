@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required  # Usuário deve estar logado para criar uma tarefa
-from .models import Tarefa
-from .forms import TarefaForm
+from ..models import Tarefa
+from ..forms.tarefa_form import TarefaForm
 
 
 @login_required
