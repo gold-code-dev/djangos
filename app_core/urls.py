@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('painel/tickets/novo/', views.criar_ticket, name="criar_ticket"),
     path('painel/tickets/lista/', views.lista_tickets, name='listar_tickets'),  # Configura a rota 'lista_tickets'
+    path('painel/tickets/<int:numero_escritorio>/add_info/', views.add_info, name='add_info'),
 
     # path('painel/ticket_new/', views.ticket_new_view, name='ticket_new'),
 
