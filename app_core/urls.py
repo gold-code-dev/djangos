@@ -21,7 +21,10 @@ urlpatterns = [
 
     # path('taref/as/', TarefaListView.as_view(), name='tarefa-list'),
 
-    path('tarefas/criar/', views.criar_tarefa, name='criar_tarefa'),
+    # path('tarefas/criar/', views.criar_tarefa, name='criar_tarefa'),
+    path('painel/tickets/tarefas/criar/<int:numero_ticket>/', views.criar_tarefa, name='criar_tarefa'),
+
+    # path('tarefas/criar/<int:numero_ticket>/', views.criar_tarefa_com_ticket, name='criar_tarefa_com_ticket'),
 
 ]
 

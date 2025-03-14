@@ -20,7 +20,7 @@ def lista_tickets(request):
     numero_ticket = request.GET.get("numero_ticket")  # Captura o número do ticket
     if numero_ticket:
         # Aqui aplicamos a regra de negócio: redirecionamento para criar tarefa
-        return redirect("criar_tarefa_com_ticket", numero_ticket=numero_ticket)
+        return redirect("criar_tarefa", numero_ticket=numero_ticket)
 
     # Caso não haja número do ticket nos parâmetros, renderizamos a página normalmente
     return render(request, "app_core/lista_tickets.html", {"tickets": tickets})
