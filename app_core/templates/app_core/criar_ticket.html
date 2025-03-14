@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Ticket</title>
+</head>
+<body>
+    <h1>Criar Novo Ticket</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Renderiza o formulário -->
+        <button type="submit">Salvar Ticket</button>
+    </form>
+</body>
+</html>

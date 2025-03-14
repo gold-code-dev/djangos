@@ -9,7 +9,9 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),  # Não precisa de HTML, mas é consistente
     path("", lambda request: redirect("login"), name="home"),  # Redirecionar como padrão para login
 
-    path('painel/ticket_new/', views.ticket_new_view, name='ticket_new'),
+    path('painel/tickets/novo/', views.criar_ticket, name="criar_ticket"),
+
+    # path('painel/ticket_new/', views.ticket_new_view, name='ticket_new'),
 
     # Rotas relacionadas a tickets
     # path('tickets_list/', views.ticket_list, name='tickets_list'),  # Nome igual ao "tickets_list.html"

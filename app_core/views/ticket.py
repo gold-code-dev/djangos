@@ -1,19 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from ..forms import TicketForm  # Importamos o formulário da nova pasta
-from ..models.ticket import Ticket
+from django.contrib.auth.decorators import login_required
+from ..models import Ticket
+from ..forms import TicketForm
 
 
-def criar_ticket_view(request):
-    if request.method == 'POST':
+@login_required  # Garante que apenas usuários logados acessem
+def criar_ticket(request):
+    if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
-            novo_ticket = form.save(commit=False)
-            novo_ticket.usuario = request.user  # Relacionamos o ticket ao usuário logado
-            novo_ticket.save()
-            messages.success(request, "Ticket criado com sucesso!")
-            return redirect('/')  # Ajuste o redirecionamento conforme sua necessidade
+            ticket = form.save(commit=False)  # Não salva ainda, para adicionar o "criado_por"
+            ticket.criado_por = request.user  # Adiciona o usuário logado
+            ticket.save()
+            return redirect("lista_tickets")  # Redireciona para a página de lista (crie uma URL para isso)
     else:
         form = TicketForm()
-
-    return render(request, 'ticket.html', {'form': form})
+    return render(request, "criar_ticket.html", {"form": form})

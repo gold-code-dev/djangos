@@ -1,8 +1,11 @@
 from django import forms
-from ..models.ticket import Ticket  # Importando o modelo Ticket
+from ..models import Ticket
 
 
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['titulo', 'descricao', 'status']  # Substitua pelos campos reais do seu modelo
+        fields = ['tipo', 'nome_empresa', 'prazo']  # Campos que o usuário pode preencher
+        widgets = {
+            'prazo': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
