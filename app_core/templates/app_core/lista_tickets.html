@@ -2,18 +2,61 @@
 <html>
 <head>
     <title>Lista de Tickets</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <h1>Meus Tickets</h1>
-    <ul>
-    {% for ticket in tickets %}
-        <li>
-            {{ ticket.id }} - {{ ticket.tipo }} - {{ ticket.nome_empresa }} - Prazo: {{ ticket.prazo }}
-        </li>
-    {% endfor %}
-    </ul>
-    <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Cancelar</button>
-    <button onclick="location.href='{% url 'criar_ticket' %}'" class="btn btn-secondary">Novo Ticket</button>
 
+    <!-- Verifica se há tickets -->
+    {% if tickets.exists %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Nome da Empresa</th>
+                    <th>Prazo</th>
+                    <th>Criado Em</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.id }}</td>
+                        <td>{{ ticket.get_tipo_display }}</td> <!-- Exibe o nome legível do campo "tipo" -->
+                        <td>{{ ticket.nome_empresa }}</td>
+                        <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td> <!-- Formatação do prazo -->
+                        <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td> <!-- Formatação da data de criação -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <!-- Caso não haja nenhum ticket -->
+        <p style="text-align: center; font-weight: bold; font-size: 18px; color: #555;">
+            Nenhum ticket criado até agora.
+        </p>
+    {% endif %}
+
+    <!-- Botões para navegação -->
+    <div style="margin-top: 20px;">
+        <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Cancelar</button>
+        <button onclick="location.href='{% url 'criar_ticket' %}'" class="btn btn-primary">Criar Novo Ticket</button>
+    </div>
 </body>
 </html>
