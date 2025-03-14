@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from django.core.exceptions import ValidationError
+from .escritorio import Escritorio  # Importação do modelo Escritório (relacionamento)
 
 
 class Ticket(models.Model):
@@ -16,8 +17,11 @@ class Ticket(models.Model):
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
     nome_empresa = models.CharField(max_length=255)
     prazo = models.DateTimeField()
-    criado_por = models.ForeignKey(User, on_delete=models.CASCADE)  # Relaciona ao usuário logado # TODO deletar nunca
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE)  # Relaciona ao usuário logado
     criado_em = models.DateTimeField(auto_now_add=True)  # Preenchido automaticamente com a data/hora da criação
+    escritorio = models.ForeignKey(Escritorio, on_delete=models.CASCADE,
+                                   related_name='tickets')  # Relaciona ao Escritório
+    numero_escritorio = models.PositiveIntegerField()  # Numeração do ticket dentro do escritório
 
     def clean(self):
         """Validação personalizada para o prazo."""
@@ -25,9 +29,16 @@ class Ticket(models.Model):
             raise ValidationError("O prazo deve ser no futuro ou no presente.")  # Bloqueia data no passado
 
     def save(self, *args, **kwargs):
-        """Executa a validação no momento de salvar o objeto."""
-        self.full_clean()  # Verifica todas as validações antes de salvar
+        """Adiciona a lógica para o número único por escritório."""
+        if not self.pk:  # Apenas para novos objetos
+            ultimo_ticket = Ticket.objects.filter(escritorio=self.escritorio).order_by('numero_escritorio').last()
+            if ultimo_ticket:
+                self.numero_escritorio = ultimo_ticket.numero_escritorio + 1
+            else:
+                self.numero_escritorio = 1  # Primeiro ticket do escritório
+
+        self.full_clean()  # Executa validação
         super().save(*args, **kwargs)  # Salva o ticket no banco de dados
 
     def __str__(self):
-        return f"Ticket {self.id} - {self.nome_empresa}"
+        return f"Ticket {self.numero_escritorio} - {self.nome_empresa}"
