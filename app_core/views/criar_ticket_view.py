@@ -15,4 +15,4 @@ def criar_ticket(request):
             return redirect("lista_tickets")  # Redireciona para a página de lista (crie uma URL para isso)
     else:
         form = TicketForm()
-    return render(request, "app_base/criar_ticket.html", {"form": form})
+    return render(request, "app_core/criar_ticket.html", {"form": form})
