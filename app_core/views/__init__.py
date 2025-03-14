@@ -6,6 +6,7 @@ from .logout_view import logout_view
 from .criar_ticket_view import criar_ticket
 from .lista_tickets_view import lista_tickets
 # from .add_info_view import add_info
+from .criar_tarefa_view import criar_tarefa
 
 
 # from .painel import painel_view
@@ -20,6 +21,7 @@ __all__ = [
     # "ticket_new_view",
     "lista_tickets",
     # "add_info"
+    'criar_tarefa'
 
 
     # "criar_ticket_view",

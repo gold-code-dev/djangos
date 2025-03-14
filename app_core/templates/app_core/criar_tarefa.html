@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Tarefa</title>
+</head>
+<body>
+    <h1>Criar Nova Tarefa</h1>
+    <form method="POST">
+        {% csrf_token %}  <!-- Proteção contra requisições maliciosas -->
+        {{ form.as_p }}  <!-- Renderiza o formulário automaticamente com <p> ao redor dos campos -->
+        <button type="submit">Criar Tarefa</button>
+    </form>
+</body>
+</html>
