@@ -30,6 +30,7 @@
                     <th>ID</th>
                     <th>Tipo</th>
                     <th>Nome da Empresa</th>
+                    <th>Criado Por</th> <!-- Nova coluna -->
                     <th>Prazo</th>
                     <th>Criado Em</th>
                 </tr>
@@ -40,6 +41,7 @@
                         <td>{{ ticket.id }}</td>
                         <td>{{ ticket.get_tipo_display }}</td> <!-- Exibe o nome legível do campo "tipo" -->
                         <td>{{ ticket.nome_empresa }}</td>
+                        <td>{{ ticket.criado_por.username }}</td> <!-- Exibe o nome de usuário de quem criou o ticket -->
                         <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td> <!-- Formatação do prazo -->
                         <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td> <!-- Formatação da data de criação -->
                     </tr>
@@ -55,7 +57,7 @@
 
     <!-- Botões para navegação -->
     <div style="margin-top: 20px;">
-        <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Cancelar</button>
+        <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
         <button onclick="location.href='{% url 'criar_ticket' %}'" class="btn btn-primary">Criar Novo Ticket</button>
     </div>
 </body>
