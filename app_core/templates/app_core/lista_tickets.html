@@ -17,6 +17,14 @@
         th {
             background-color: #f2f2f2;
         }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -27,7 +35,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Ticket</th> <!-- Alteração no cabeçalho -->
+                    <th>Ticket</th>
                     <th>Tipo</th>
                     <th>Prazo</th>
                     <th>Empresa</th>
@@ -38,15 +46,17 @@
             <tbody>
                 {% for ticket in tickets %}
                     <tr>
-                        <!-- Alteração aqui - exibe numero_escritorio -->
                         <td>{{ ticket.numero_escritorio }}</td>
                         <td>{{ ticket.get_tipo_display }}</td>
                         <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
 
-                        <!-- Nome da Empresa com Limitação de Tamanho -->
-                        <td>{{ ticket.nome_empresa|slice:":255" }}</td>
+                        <!-- Nome da Empresa agora é um link -->
+                        <td>
+                            <a href="?numero_ticket={{ ticket.numero_escritorio }}">
+                                {{ ticket.nome_empresa|slice:":255" }}
+                            </a>
+                        </td>
 
-                        <!-- Exibe o Nome Completo do Criador -->
                         <td>
                             {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}
                         </td>

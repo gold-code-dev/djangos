@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from ..models import Ticket
 
@@ -16,4 +16,11 @@ def lista_tickets(request):
         # Usuário não associado a nenhum escritório
         tickets = Ticket.objects.none()  # Nenhum ticket será listado
 
+    # Verifica se o número do ticket foi passado via GET, para redirecionar
+    numero_ticket = request.GET.get("numero_ticket")  # Captura o número do ticket
+    if numero_ticket:
+        # Aqui aplicamos a regra de negócio: redirecionamento para criar tarefa
+        return redirect("criar_tarefa_com_ticket", numero_ticket=numero_ticket)
+
+    # Caso não haja número do ticket nos parâmetros, renderizamos a página normalmente
     return render(request, "app_core/lista_tickets.html", {"tickets": tickets})
