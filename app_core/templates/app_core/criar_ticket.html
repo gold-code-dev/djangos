@@ -10,8 +10,8 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }} <!-- Renderiza o formulário -->
-    <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar Painel</button>
-    <button type="submit" class="btn btn-success">Salvar</button>
+    <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Cancelar</button>
+    <button type="submit" class="btn btn-success">Salvar Ticket</button>
 </form>
 </body>
 </html>
