@@ -18,5 +18,8 @@ urlpatterns = [
     # Rotas relacionadas a tickets
     # path('tickets_list/', views.ticket_list, name='tickets_list'),  # Nome igual ao "tickets_list.html"
     # path('ticket_criar/', views.criar_ticket_view, name='ticket_criar'),  # Nome igual ao "ticket_criar.html"
+
+    # path('taref/as/', TarefaListView.as_view(), name='tarefa-list'),
+
 ]
 
