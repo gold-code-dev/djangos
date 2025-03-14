@@ -1,7 +1,12 @@
 {% extends "app_core/base.html" %}
 
 {% block content %}
-<p>Este é o conteúdo painel.</p>
+
+    <button onclick="location.href='{% url 'criar_ticket' %}'" class="btn btn-primary">
+        + Criar Novo Ticket
+    </button>
+
+
 {% endblock %}
 
 
