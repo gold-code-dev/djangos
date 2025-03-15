@@ -8,14 +8,19 @@
 <body>
     <h1>Detalhes do Ticket</h1>
 
-    <p><strong>ID do Ticket:</strong> {{ ticket.id }}</p>
-    <p><strong>Nome:</strong> {{ ticket.nome_empresa }}</p>
-    <p><strong>Tipo:</strong> {{ ticket.tipo }}</p>
-    <p><strong>Prazo:</strong> {{ ticket.prazo }}</p>
+    <p><strong>Número do Ticket:</strong> {{ ticket.numero_escritorio }}</p>
+    <p><strong>Tipo:</strong> {{ ticket.get_tipo_display }}</p>
+    <p><strong>Prazo:</strong> {{ ticket.prazo|date:"d/m/Y H:i" }}</p>
+    <p><strong>Nome da Empresa:</strong> {{ ticket.nome_empresa }}</p>
+    <p><strong>Criado pelo Contador:</strong> {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</p>
+    <p><strong>Data da Solicitação:</strong> {{ ticket.criado_em|date:"d/m/Y H:i" }}</p>
 
-    <!-- Você pode adicionar mais informações aqui -->
+    <!-- Caso queira adicionar mais detalhes ou relacionamentos -->
+    {% if ticket.descricao %}
+        <p><strong>Descrição:</strong> {{ ticket.descricao }}</p>
+    {% endif %}
 
+    <!-- Botão para voltar -->
     <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
-
 </body>
 </html>
