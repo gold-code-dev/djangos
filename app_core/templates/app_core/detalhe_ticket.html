@@ -4,47 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Ticket</title>
+
+    <!-- Adicionando estilo CSS para parecer com Gmail -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #4285f4; /* Azul estilo Google */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #444;
+            margin-bottom: 10px;
+        }
+        p {
+            margin: 8px 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        li a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+        .form-section {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .form-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px 5px 0 0;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-success {
+            background: #34a853;
+            color: white;
+            border: none;
+        }
+        .btn-success:hover {
+            background: #2e8b47;
+        }
+        .btn-primary {
+            background: #1a73e8;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #1558b8;
+        }
+        .btn-secondary {
+            background: #666;
+            color: white;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background: #444;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background: #f1f1f1;
+            color: #777;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Detalhes do Ticket</h1>
+<div class="container">
+    <div class="header">
+        <h1>Detalhes do Ticket</h1>
+    </div>
+    <div class="content">
+        <p><strong>Número do Ticket:</strong> {{ ticket.numero_escritorio }}</p>
+        <p><strong>Tipo:</strong> {{ ticket.get_tipo_display }}</p>
+        <p><strong>Prazo:</strong> {{ ticket.prazo|date:"d/m/Y H:i" }}</p>
+        <p><strong>Nome da Empresa:</strong> {{ ticket.nome_empresa }}</p>
+        <p><strong>Criado pelo Contador:</strong> {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</p>
+        <p><strong>Data da Solicitação:</strong> {{ ticket.criado_em|date:"d/m/Y H:i" }}</p>
 
-<p><strong>Número do Ticket:</strong> {{ ticket.numero_escritorio }}</p>
-<p><strong>Tipo:</strong> {{ ticket.get_tipo_display }}</p>
-<p><strong>Prazo:</strong> {{ ticket.prazo|date:"d/m/Y H:i" }}</p>
-<p><strong>Nome da Empresa:</strong> {{ ticket.nome_empresa }}</p>
-<p><strong>Criado pelo Contador:</strong> {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</p>
-<p><strong>Data da Solicitação:</strong> {{ ticket.criado_em|date:"d/m/Y H:i" }}</p>
+        {% if ticket.descricao %}
+            <p><strong>Descrição:</strong> {{ ticket.descricao }}</p>
+        {% endif %}
 
-{% if ticket.descricao %}
-    <p><strong>Descrição:</strong> {{ ticket.descricao }}</p>
-{% endif %}
+        <!-- Seção para exibir os anexos -->
+        <h2>Anexos</h2>
+        {% if anexos %}
+            <ul>
+                {% for anexo in anexos %}
+                    <li>
+                        <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a>
+                        (Enviado em: {{ anexo.enviado_em|date:"d/m/Y H:i" }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Este ticket não possui anexos.</p>
+        {% endif %}
 
-<!-- Seção para exibir os anexos -->
-<h2>Anexos</h2>
-{% if anexos %}
-    <ul>
-        {% for anexo in anexos %}
-            <li>
-                <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a>
-                (Enviado em: {{ anexo.enviado_em|date:"d/m/Y H:i" }})
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Este ticket não possui anexos.</p>
-{% endif %}
+        <!-- Formulário para adicionar novos anexos -->
+        <div class="form-section">
+            <h2>Adicionar Anexo</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Enviar Anexo</button>
+            </form>
+        </div>
 
-<!-- Formulário para adicionar novos anexos -->
-<h2>Adicionar Anexo</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Enviar Anexo</button>
-</form>
-
-<!-- Botão para voltar -->
-<button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
-<button onclick="location.href='{% url 'listar_tickets' %}'" class="btn btn-primary">Listar Tickets</button>
-
+        <!-- Botões para voltar -->
+        <div>
+            <a href="{% url 'painel' %}" class="btn btn-secondary">Voltar ao Painel</a>
+            <a href="{% url 'listar_tickets' %}" class="btn btn-primary">Listar Tickets</a>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>&copy; {{ current_year }} Sua Empresa - Todos os direitos reservados.</p>
+</div>
 </body>
 </html>
