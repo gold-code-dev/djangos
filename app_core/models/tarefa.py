@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
+from .ticket import Ticket  # Relacionar tarefa ao ticket
 
 
 class Tarefa(models.Model):
+    ticket = models.ForeignKey(
+        Ticket,
+        on_delete=models.CASCADE,
+        related_name="tarefas"
+    )  # Relacionamento direto com Ticket
     nome = models.CharField(max_length=255)  # Nome descritivo da tarefa
     descricao = models.TextField(blank=True)  # Descrição detalhada da tarefa
     criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tarefas_criadas")  # Criador da tarefa
@@ -17,11 +23,5 @@ class Tarefa(models.Model):
         ordering = ["-criado_em"]  # Ordenação das tarefas pela data de criação (mais recente primeiro)
         verbose_name_plural = "Tarefas"
 
-    def is_atrasada(self):
-        """Verifica se a tarefa está atrasada."""
-        if self.prazo and not self.concluido and now() > self.prazo:
-            return True
-        return False
-
     def __str__(self):
-        return f"Tarefa: {self.nome} (Concluída: {'Sim' if self.concluido else 'Não'})"
+        return f"Tarefa: {self.nome} do Ticket {self.ticket} (Concluída: {'Sim' if self.concluido else 'Não'})"
