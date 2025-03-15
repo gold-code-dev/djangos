@@ -6,23 +6,45 @@
     <title>Detalhes do Ticket</title>
 </head>
 <body>
-    <h1>Detalhes do Ticket</h1>
+<h1>Detalhes do Ticket</h1>
 
-    <p><strong>Número do Ticket:</strong> {{ ticket.numero_escritorio }}</p>
-    <p><strong>Tipo:</strong> {{ ticket.get_tipo_display }}</p>
-    <p><strong>Prazo:</strong> {{ ticket.prazo|date:"d/m/Y H:i" }}</p>
-    <p><strong>Nome da Empresa:</strong> {{ ticket.nome_empresa }}</p>
-    <p><strong>Criado pelo Contador:</strong> {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</p>
-    <p><strong>Data da Solicitação:</strong> {{ ticket.criado_em|date:"d/m/Y H:i" }}</p>
+<p><strong>Número do Ticket:</strong> {{ ticket.numero_escritorio }}</p>
+<p><strong>Tipo:</strong> {{ ticket.get_tipo_display }}</p>
+<p><strong>Prazo:</strong> {{ ticket.prazo|date:"d/m/Y H:i" }}</p>
+<p><strong>Nome da Empresa:</strong> {{ ticket.nome_empresa }}</p>
+<p><strong>Criado pelo Contador:</strong> {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</p>
+<p><strong>Data da Solicitação:</strong> {{ ticket.criado_em|date:"d/m/Y H:i" }}</p>
 
-    <!-- Caso queira adicionar mais detalhes ou relacionamentos -->
-    {% if ticket.descricao %}
-        <p><strong>Descrição:</strong> {{ ticket.descricao }}</p>
-    {% endif %}
+{% if ticket.descricao %}
+    <p><strong>Descrição:</strong> {{ ticket.descricao }}</p>
+{% endif %}
 
-    <!-- Botão para voltar -->
-    <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
-    <button onclick="location.href='{% url 'listar_tickets' %}'" class="btn btn-primary">Listar Tickets</button>
+<!-- Seção para exibir os anexos -->
+<h2>Anexos</h2>
+{% if anexos %}
+    <ul>
+        {% for anexo in anexos %}
+            <li>
+                <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a>
+                (Enviado em: {{ anexo.enviado_em|date:"d/m/Y H:i" }})
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Este ticket não possui anexos.</p>
+{% endif %}
+
+<!-- Formulário para adicionar novos anexos -->
+<h2>Adicionar Anexo</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Enviar Anexo</button>
+</form>
+
+<!-- Botão para voltar -->
+<button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
+<button onclick="location.href='{% url 'listar_tickets' %}'" class="btn btn-primary">Listar Tickets</button>
 
 </body>
 </html>
