@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes e Tarefas do Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        .container {
+            width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.1);
+        }
+        .ticket-descricao {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .tarefas {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .tarefa {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            position: relative;
+            width: 60%;
+            clear: both;
+        }
+        .cliente {
+            background-color: #e2f0d9; /* Verde Claro Cliente */
+            float: left;
+        }
+        .suporte {
+            background-color: #d9e1f2; /* Azul Claro Suporte */
+            float: right;
+            text-align: right;
+        }
+        .resposta {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+            font-size: 0.9em;
+        }
+        .formulario-tarefas {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        input, select, button {
+            padding: 5px;
+            margin-right: 5px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="ticket-descricao">
+        <h2>Detalhe do Ticket #12345</h2>
+        <p><strong>Tema:</strong> Problema ao acessar servidor</p>
+        <p><strong>Descrição:</strong> O cliente não consegue acessar o servidor desde ontem.</p>
+    </div>
+
+    <div class="tarefas" id="tarefas">
+        <!-- aqui serão adicionadas tarefas dinamicamente -->
+    </div>
+
+    <div class="formulario-tarefas">
+        <input type="text" id="tarefa-input" placeholder="Descreva a tarefa" style="width:50%;">
+        <select id="atribuicao">
+            <option value="cliente">Cliente</option>
+            <option value="suporte">Suporte</option>
+        </select>
+        <input type="datetime-local" id="data">
+        <button onclick="criarTarefa()">Criar Tarefa</button>
+    </div>
+</div>
+
+<script>
+    function criarTarefa() {
+        const descricao = document.getElementById('tarefa-input').value;
+        const atribuicao = document.getElementById('atribuicao').value;
+        const data = document.getElementById('data').value;
+
+        if(descricao.trim() === "") {
+            alert("Por favor, descreva a tarefa antes de adicionar.");
+            return;
+        }
+
+        const tarefa = document.createElement('div');
+        tarefa.className = 'tarefa ' + atribuicao;
+
+        tarefa.innerHTML = `
+            <p><strong>${atribuicao === 'cliente' ? 'Cliente' : 'Suporte'}:</strong> ${descricao}</p>
+            ${data ? `<small>📅 Agendado para: ${new Date(data).toLocaleString()}</small>` : "<small>Conclusão imediata exigida</small>"}
+            <div class="respostas"></div>
+            <input type="text" placeholder="Escreva uma resposta" style="width:70%;margin-top:10px;">
+            <button onclick="responderTarefa(this)">Responder</button>
+        `;
+
+        document.getElementById('tarefas').appendChild(tarefa);
+
+        document.getElementById('tarefa-input').value = '';
+        document.getElementById('data').value = '';
+    }
+
+    function responderTarefa(btn) {
+        const inputResposta = btn.previousElementSibling;
+        const respostaText = inputResposta.value;
+
+        if(respostaText.trim() === "") {
+            alert("Digite uma resposta antes de enviar.");
+            return;
+        }
+
+        const respostasDiv = btn.parentElement.querySelector('.respostas');
+        const resposta = document.createElement('div');
+        resposta.className = 'resposta';
+
+        resposta.innerText = respostaText;
+        respostasDiv.appendChild(resposta);
+
+        inputResposta.value = '';
+    }
+</script>
+
+</body>
+</html>

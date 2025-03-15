@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhe do Ticket</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .ticket-resumo, .ticket-tarefa-form, .ticket-tarefas { padding: 15px; border-bottom: 1px solid #ccc; }
+        h2 { margin-top: 0; }
+        .tarefas-lista li { padding: 10px; margin-bottom: 5px; background: #f9f9f9; cursor: pointer; }
+        .tarefas-lista li:hover { background: #eef2f6; }
+        .tarefas-lista li.concluida { text-decoration: line-through; color: gray; background: #e0e0e0; cursor: not-allowed; }
+        button { padding: 5px 10px; }
+        /* Estilo do modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
+        .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; width: 50%; max-width: 600px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; }
+        .close { background: none; border: none; font-size: 20px; cursor: pointer; }
+        .modal-messages { margin-top: 20px; max-height: 300px; overflow-y: auto; padding: 10px; background: #f9f9f9; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-messages div { margin-bottom: 10px; }
+        .send-message { display: flex; flex-direction: column; margin-top: 10px; gap: 10px; }
+        .buttons { display: flex; justify-content: space-between; }
+        .send-message input[type="text"], .send-message input[type="file"] { flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .send-message button { padding: 5px 10px; background: #5b8def; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .concluir-tarefa, .reabrir-tarefa { margin-top: 15px; padding: 8px; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .concluir-tarefa { background: #28a745; }
+        .reabrir-tarefa { background: #ff9800; }
+        .reabrir-tarefa[disabled], .concluir-tarefa[disabled] { background: gray; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- DESCRIÇÃO DO TICKET -->
+    <div class="ticket-resumo">
+        <h2>Detalhe do Ticket #12345</h2>
+        <p><strong>Tema:</strong> Problema ao acessar servidor</p>
+        <p><strong>Descrição:</strong> O cliente não consegue acessar o servidor desde ontem.</p>
+    </div>
+
+    <!-- FORMULÁRIO PARA NOVAS TAREFAS -->
+    <div class="ticket-tarefa-form">
+        <h3>Adicionar/solicitar nova tarefa</h3>
+        <input type="text" id="tarefa-desc" placeholder="Descreva a tarefa" style="width:65%;">
+        <select id="responsavel">
+            <option value="cliente">Cliente</option>
+            <option value="suporte">Suporte</option>
+        </select>
+        <input type="datetime-local" id="agenda" optional>
+        <input type="file" id="anexo-tarefa" name="anexo-tarefa" accept="image/*,.pdf,.doc,.docx">
+        <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+    </div>
+
+    <!-- HISTÓRICO DE TAREFAS -->
+    <div class="ticket-tarefas">
+        <h3>Histórico de Tarefas</h3>
+        <ul class="tarefas-lista" id="lista-tarefas">
+            <!-- Tarefas serão adicionadas aqui dinamicamente -->
+        </ul>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal-historico">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-tarefa-descricao">Tarefa: Descrição da Tarefa</h3>
+            <button class="close" onclick="fecharModal()">×</button>
+        </div>
+
+        <!-- Histórico -->
+        <div id="historico-respostas" class="modal-messages">
+            <!-- Respostas serão inseridas dinamicamente -->
+        </div>
+
+        <!-- Campo de resposta -->
+        <div class="send-message">
+            <input type="file" id="resposta-anexo" accept="image/*,.pdf,.doc,.docx">
+            <input type="text" id="resposta-texto" placeholder="Adicionar uma resposta...">
+            <div class="buttons">
+                <button onclick="enviarResposta('cliente')">Responder como Cliente</button>
+                <button onclick="enviarResposta('suporte')">Responder como Suporte</button>
+            </div>
+        </div>
+
+        <!-- Botão para concluir ou reabrir tarefa -->
+        <button id="btn-concluir" class="concluir-tarefa" onclick="concluirTarefa()">Concluir Tarefa</button>
+        <button id="btn-reabrir" class="reabrir-tarefa" onclick="reabrirTarefa()">Reabrir Tarefa</button>
+    </div>
+</div>
+
+<script>
+    const tarefas = [];
+    let tarefaAtual = null;
+
+    function adicionarTarefa() {
+        const tarefaDesc = document.getElementById('tarefa-desc').value;
+        const responsavel = document.getElementById('responsavel').value;
+        const agenda = document.getElementById('agenda').value;
+        const anexo = document.getElementById('anexo-tarefa').files[0];
+
+        if (tarefaDesc.trim() === "") {
+            alert("Preencha a descrição da tarefa.");
+            return;
+        }
+
+        const tarefa = {
+            id: Date.now(),
+            descricao: tarefaDesc,
+            responsavel: responsavel,
+            horario: agenda ? new Date(agenda).toLocaleString() : "Sem horário definido",
+            respostas: [],
+            concluida: false,
+            anexo: anexo ? anexo.name : null
+        };
+
+        tarefas.push(tarefa);
+        renderizarTarefas();
+
+        // Limpa os campos
+        document.getElementById('tarefa-desc').value = '';
+        document.getElementById('agenda').value = '';
+        document.getElementById('anexo-tarefa').value = '';
+    }
+
+    function renderizarTarefas() {
+        const listaTarefas = document.getElementById('lista-tarefas');
+        listaTarefas.innerHTML = '';
+
+        tarefas.forEach(tarefa => {
+            const li = document.createElement('li');
+            if (tarefa.anexo) {
+                li.innerHTML = `${tarefa.descricao} <small>(Anexo: ${tarefa.anexo})</small>`;
+            } else {
+                li.textContent = `${tarefa.descricao}`;
+            }
+            li.className = tarefa.concluida ? 'concluida' : '';
+            li.onclick = () => abrirModal(tarefa.id);
+            listaTarefas.appendChild(li);
+        });
+    }
+
+    function abrirModal(tarefaId) {
+        tarefaAtual = tarefas.find(t => t.id === tarefaId);
+        if (!tarefaAtual) return;
+
+        document.getElementById('modal-tarefa-descricao').textContent = `Tarefa: ${tarefaAtual.descricao}`;
+
+        const historico = document.getElementById('historico-respostas');
+        historico.innerHTML = '';
+
+        tarefaAtual.respostas.forEach(resposta => {
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>${resposta.autor}</strong>: ${resposta.texto} ${resposta.anexo ? `<small>(Anexo: ${resposta.anexo})</small>` : ''}`;
+            historico.appendChild(div);
+        });
+
+        const btnConcluir = document.getElementById('btn-concluir');
+        const btnReabrir = document.getElementById('btn-reabrir');
+        btnConcluir.disabled = tarefaAtual.concluida;
+        btnReabrir.disabled = !tarefaAtual.concluida;
+
+        document.getElementById('modal-historico').style.display = 'block';
+    }
+
+    function fecharModal() {
+        document.getElementById('modal-historico').style.display = 'none';
+        tarefaAtual = null;
+    }
+
+    function enviarResposta(autor) {
+        if (!tarefaAtual) return;
+
+        const respostaTexto = document.getElementById('resposta-texto').value.trim();
+        const respostaAnexo = document.getElementById('resposta-anexo').files[0];
+
+        if (respostaTexto === "" && !respostaAnexo) {
+            alert("Digite uma resposta ou anexe um arquivo.");
+            return;
+        }
+
+        const resposta = {
+            autor: autor,
+            texto: respostaTexto,
+            anexo: respostaAnexo ? respostaAnexo.name : null
+        };
+
+        tarefaAtual.respostas.push(resposta);
+        abrirModal(tarefaAtual.id);
+
+        document.getElementById('resposta-texto').value = '';
+        document.getElementById('resposta-anexo').value = '';
+    }
+
+    function concluirTarefa() {
+        if (!tarefaAtual) return;
+
+        tarefaAtual.concluida = true;
+        renderizarTarefas();
+        abrirModal(tarefaAtual.id);
+    }
+
+    function reabrirTarefa() {
+        if (!tarefaAtual) return;
+
+        tarefaAtual.concluida = false;
+        renderizarTarefas();
+        abrirModal(tarefaAtual.id);
+    }
+</script>
+
+</body>
+</html>

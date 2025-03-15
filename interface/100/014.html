@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Criação de Ticket</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .ticket-form, .ticket-detalhes, .ticket-tarefa-form, .ticket-tarefas { padding: 15px; border-bottom: 1px solid #ccc; }
+        .ticket-form input, .ticket-form select { margin-bottom: 10px; padding: 5px; width: 100%; }
+        h2, h3 { margin-top: 0; }
+        .tarefas-lista li { padding: 10px; margin-bottom: 5px; background: #f9f9f9; cursor: pointer; }
+        .tarefas-lista li:hover { background: #eef2f6; }
+        .tarefas-lista li.concluida { text-decoration: line-through; color: gray; background: #e0e0e0; cursor: not-allowed; }
+        button { padding: 5px 10px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- FORMULÁRIO DE CRIAÇÃO DO TICKET -->
+    <div class="ticket-form" id="ticket-form">
+        <h2>Criar Novo Ticket</h2>
+        <label for="tipo">Tipo do Ticket:</label>
+        <select id="tipo">
+            <option value="abertura">Abertura</option>
+            <option value="alteracao">Alteração</option>
+            <option value="transformacao">Transformação</option>
+            <option value="baixa">Baixa</option>
+        </select>
+
+        <label for="empresa">Nome da Empresa:</label>
+        <input type="text" id="empresa" placeholder="Digite o nome da empresa" required>
+
+        <p><strong>Data e Hora de Criação:</strong> <span id="data-hora"></span></p>
+
+        <button onclick="criarTicket()">Criar Ticket</button>
+    </div>
+
+    <!-- DETALHES DO TICKET APÓS CRIADO -->
+    <div class="ticket-detalhes hidden" id="ticket-detalhes">
+        <h2>Detalhes do Ticket</h2>
+        <p><strong>Tipo:</strong> <span id="detalhe-tipo"></span></p>
+        <p><strong>Nome da Empresa:</strong> <span id="detalhe-empresa"></span></p>
+        <p><strong>Data e Hora de Criação:</strong> <span id="detalhe-data-hora"></span></p>
+    </div>
+
+    <!-- FORMULÁRIO PARA NOVAS TAREFAS -->
+    <div class="ticket-tarefa-form hidden" id="ticket-tarefa-form">
+        <h3>Adicionar Tarefas ao Ticket</h3>
+        <input type="text" id="tarefa-desc" placeholder="Descreva a tarefa" style="width:65%;">
+        <select id="responsavel">
+            <option value="cliente">Cliente</option>
+            <option value="suporte">Suporte</option>
+        </select>
+        <input type="datetime-local" id="agenda" optional>
+        <input type="file" id="anexo-tarefa" name="anexo-tarefa" accept="image/*,.pdf,.doc,.docx">
+        <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+    </div>
+
+    <!-- HISTÓRICO DE TAREFAS -->
+    <div class="ticket-tarefas hidden" id="ticket-tarefas">
+        <h3>Lista de Tarefas</h3>
+        <ul class="tarefas-lista" id="lista-tarefas">
+            <!-- Tarefas serão adicionadas aqui dinamicamente -->
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    const tarefas = [];
+    let ticket = null; // Armazena o ticket criado
+
+    // Define a data e hora atual ao carregar a página
+    window.onload = function () {
+        const dataHoraAtual = new Date().toLocaleString();
+        document.getElementById('data-hora').textContent = dataHoraAtual;
+    };
+
+    function criarTicket() {
+        const tipo = document.getElementById('tipo').value;
+        const empresa = document.getElementById('empresa').value.trim();
+        const dataHora = document.getElementById('data-hora').textContent;
+
+        if (!empresa) {
+            alert("Por favor, preencha o nome da empresa.");
+            return;
+        }
+
+        // Criar o "ticket" com as informações preenchidas
+        ticket = {
+            tipo: tipo,
+            empresa: empresa,
+            dataHora: dataHora,
+            tarefas: []
+        };
+
+        // Exibir detalhes do ticket e liberar as seções de tarefas
+        document.getElementById('detalhe-tipo').textContent = ticket.tipo;
+        document.getElementById('detalhe-empresa').textContent = ticket.empresa;
+        document.getElementById('detalhe-data-hora').textContent = ticket.dataHora;
+
+        document.getElementById('ticket-form').classList.add('hidden');
+        document.getElementById('ticket-detalhes').classList.remove('hidden');
+        document.getElementById('ticket-tarefa-form').classList.remove('hidden');
+        document.getElementById('ticket-tarefas').classList.remove('hidden');
+
+        alert("Ticket criado com sucesso!");
+    }
+
+    function adicionarTarefa() {
+        if (!ticket) {
+            alert("Você deve criar um ticket antes de adicionar tarefas!");
+            return;
+        }
+
+        const tarefaDesc = document.getElementById('tarefa-desc').value;
+        const responsavel = document.getElementById('responsavel').value;
+        const agenda = document.getElementById('agenda').value;
+        const anexo = document.getElementById('anexo-tarefa').files[0];
+
+        if (tarefaDesc.trim() === "") {
+            alert("Por favor, descreva a tarefa.");
+            return;
+        }
+
+        const tarefa = {
+            id: Date.now(),
+            descricao: tarefaDesc,
+            responsavel: responsavel,
+            horario: agenda ? new Date(agenda).toLocaleString() : "Sem horário definido",
+            anexo: anexo ? anexo.name : null,
+            concluida: false
+        };
+
+        tarefas.push(tarefa);
+        ticket.tarefas.push(tarefa); // Associar ao ticket
+        renderizarTarefas();
+
+        // Limpa os campos após adicionar a tarefa
+        document.getElementById('tarefa-desc').value = '';
+        document.getElementById('agenda').value = '';
+        document.getElementById('anexo-tarefa').value = '';
+    }
+
+    function renderizarTarefas() {
+        const listaTarefas = document.getElementById('lista-tarefas');
+        listaTarefas.innerHTML = '';
+
+        tarefas.forEach(tarefa => {
+            const li = document.createElement('li');
+            if (tarefa.anexo) {
+                li.innerHTML = `
+                    <strong>${tarefa.responsavel}:</strong> ${tarefa.descricao}
+                    ${tarefa.horario ? `<em>(Agendado para: ${tarefa.horario})</em>` : ""}
+                    ${tarefa.anexo ? `<small>(Anexo: ${tarefa.anexo})</small>` : ""}
+                    <button onclick="concluirTarefa(${tarefa.id})">Concluir</button>
+                `;
+            } else {
+                li.innerHTML = `
+                    <strong>${tarefa.responsavel}:</strong> ${tarefa.descricao}
+                    ${tarefa.horario ? `<em>(Agendado para: ${tarefa.horario})</em>` : ""}
+                    <button onclick="concluirTarefa(${tarefa.id})">Concluir</button>
+                `;
+            }
+            li.className = tarefa.concluida ? 'concluida' : '';
+            listaTarefas.appendChild(li);
+        });
+    }
+
+    function concluirTarefa(tarefaId) {
+        const tarefa = tarefas.find(t => t.id === tarefaId);
+        if (!tarefa) return;
+
+        tarefa.concluida = true;
+        renderizarTarefas();
+    }
+</script>
+
+</body>
+</html>
