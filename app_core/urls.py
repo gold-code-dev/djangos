@@ -16,7 +16,6 @@ urlpatterns = [
     path('painel/tickets/tarefas/criar/<int:numero_ticket>/', views.criar_tarefa, name='criar_tarefa'),
 
     path('painel/tickets/detalhes/<int:ticket_id>/', views.detalhe_ticket, name='detalhe_ticket'),
-    path('painel/anexos/criar/', views.AnxCreateView.as_view(), name='criar_anx'),
 
 ]
 
