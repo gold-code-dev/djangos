@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Tarefa</title>
-</head>
-<body>
-    <h1>Criar Nova Tarefa</h1>
-    <form method="POST">
-        {% csrf_token %}  <!-- Proteção contra requisições maliciosas -->
-        {{ form.as_p }}  <!-- Renderiza o formulário automaticamente com <p> ao redor dos campos -->
-        <button type="submit">Criar Tarefa</button>
-    </form>
-</body>
-</html>
+<h1>Criar Tarefa para o Ticket {{ ticket.numero_escritorio }}</h1>
+
+<p><strong>Ticket:</strong> {{ ticket.nome }}</p>
+<p><strong>Descrição:</strong> {{ ticket.descricao }}</p>
+
+<h2>Anexos deste Ticket:</h2>
+<ul>
+    {% for anexo in anexos %}
+        <li>{{ anexo.descricao }} - <a href="{{ anexo.arquivo.url }}" target="_blank">Visualizar</a></li>
+    {% empty %}
+        <li>Não há anexos para este ticket.</li>
+    {% endfor %}
+</ul>
+
+<h2>Formulário de Criação de Tarefa</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar Tarefa</button>
+</form>
