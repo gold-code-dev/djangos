@@ -19,8 +19,8 @@ urlpatterns = [
 
     # Dentro de urlpatterns, adicione:
     path('painel/atendimentos/lista/', views.lista_atendimentos, name='listar_atendimentos'),
-    path('painel/atendimentos/novo/', views.criar_atendimento, name="criar_atendimento"),
-    path('painel/atendimentos/detalhes/<int:atendimento_id>/', views.detalhe_atendimento, name='detalhe_atendimento'),
+    # path('painel/atendimentos/novo/', views.criar_atendimento, name="criar_atendimento"),
+    # path('painel/atendimentos/detalhes/<int:atendimento_id>/', views.detalhe_atendimento, name='detalhe_atendimento'),
 
 ]
 

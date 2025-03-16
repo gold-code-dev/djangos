@@ -8,6 +8,7 @@ from .lista_tickets_view import lista_tickets
 # from .add_info_view import add_info
 from .criar_tarefa_view import criar_tarefa
 from  .detalhe_ticket import detalhe_ticket
+from .atendimentos import lista_atendimentos
 
 # from .painel import painel_view
 # from .ticket import criar_ticket_view
@@ -23,6 +24,7 @@ __all__ = [
     # "add_info"
     'criar_tarefa',
     'detalhe_ticket',
+    'lista_atendimentos'
 
 
     # "criar_ticket_view",
