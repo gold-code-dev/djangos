@@ -1,6 +1,3 @@
-{% extends 'app_core/base.html' %}
-{% load static %}
-
 {% block content %}
 <div class="container mt-4">
     <h2>Criar Novo Atendimento</h2>
@@ -8,7 +5,6 @@
     <form method="post">
         {% csrf_token %}
         
-        <!-- Renderizando o formulário -->
         <div class="mb-3">
             <label for="{{ form.nome_empresa.id_for_label }}" class="form-label">Nome da Empresa</label>
             {{ form.nome_empresa }}
@@ -16,19 +12,11 @@
                 <div class="text-danger">{{ form.nome_empresa.errors }}</div>
             {% endif %}
         </div>
-        
-        <div class="mb-3">
-            <label for="{{ form.escritorio.id_for_label }}" class="form-label">Escritório Responsável</label>
-            {{ form.escritorio }}
-            {% if form.escritorio.errors %}
-                <div class="text-danger">{{ form.escritorio.errors }}</div>
-            {% endif %}
-        </div>
-        
-        <!-- Botões -->
-        <button type="submit" class="btn btn-primary">Salvar Atendimento</button>
-        <a href="{% url 'listar_atendimentos' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
 
+        <button type="submit" class="btn btn-primary">Salvar Atendimento</button>
+
+        <button type="button" onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Cancelar</button>
+
+    </form>
 </div>
 {% endblock %}
