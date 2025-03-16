@@ -294,7 +294,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{% url 'detalhe_ticket' ticket.id %}" class="ticket-link">
+                                <a href="{% url 'ticket_detalhe' ticket.id %}" class="ticket-link">
                                     {{ ticket.nome_empresa|slice:":50" }}
                                     {% if ticket.nome_empresa|length > 50 %}...{% endif %}
                                 </a>

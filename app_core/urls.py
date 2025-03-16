@@ -11,11 +11,11 @@ urlpatterns = [
 
     path('painel/tickets/novo/', views.ticket_criar, name="ticket_criar"),
     path('painel/tickets/lista/', views.ticket_listar, name='ticket_listar'),  # Configura a rota 'lista_tickets'
+    path('painel/tickets/detalhes/<int:ticket_id>/', views.ticket_detalhe, name='ticket_detalhe'),
 
     # path('tarefas/criar/', views.criar_tarefa, name='criar_tarefa'),
     # path('painel/tickets/tarefas/criar/<int:numero_ticket>/', views.criar_tarefa, name='criar_tarefa'),
 
-    # path('painel/tickets/detalhes/<int:ticket_id>/', views.detalhe_ticket, name='detalhe_ticket'),
 
 ]
 

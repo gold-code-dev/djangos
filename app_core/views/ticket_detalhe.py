@@ -3,7 +3,7 @@ from ..models import Ticket, Anexo  # Importar os modelos envolvidos
 from ..forms.anexo_form import AnexoForm  # Importar o formulário de anexos
 
 
-def detalhe_ticket(request, ticket_id):
+def ticket_detalhe(request, ticket_id):
     # Buscar o ticket específico pelo ID ou exibir erro 404 se não encontrar
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
