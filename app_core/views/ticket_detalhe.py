@@ -17,7 +17,7 @@ def ticket_detalhe(request, ticket_id):
             anexo = form.save(commit=False)
             anexo.ticket = ticket  # Associar o anexo ao ticket atual
             anexo.save()
-            return redirect('detalhe_ticket', ticket_id=ticket_id)  # Recarregar a página após o upload
+            return redirect('ticket_detalhe', ticket_id=ticket_id)  # Recarregar a página após o upload
     else:
         # Criar o formulário vazio para o upload de novos anexos
         form = AnexoForm()
