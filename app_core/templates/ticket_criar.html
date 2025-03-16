@@ -14,9 +14,8 @@
         {{ form.as_p }}
 
         <div>
-            <button type="button" onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">
-                Cancelar
-            </button>
+            <button type="button" onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar Painel</button>
+            <button type="button" onclick="location.href='{% url 'ticket_listar' %}'" class="btn btn-secondary">Voltar Listar Ticket</button>
             <button type="submit" class="btn btn-success">Salvar Ticket</button>
         </div>
     </form>
