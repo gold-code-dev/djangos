@@ -52,7 +52,7 @@
 
                         <!-- Nome da Empresa agora é um link -->
                         <td>
-                            <a href="{% url 'detalhe_ticket' ticket.id %}">
+                            <a href="{% url 'ticket_detalhe' ticket.id %}">
                                 {{ ticket.nome_empresa|slice:":255" }}
                             </a>
                         </td>

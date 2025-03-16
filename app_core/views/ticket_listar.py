@@ -17,10 +17,10 @@ def ticket_listar(request):
         tickets = Ticket.objects.none()  # Nenhum ticket será listado
 
     # Verifica se o número do ticket foi passado via GET, para redirecionar
-    numero_ticket = request.GET.get("numero_ticket")  # Captura o número do ticket
-    if numero_ticket:
+    ticket_number = request.GET.get("ticket_number")  # Captura o número do ticket
+    if ticket_number:
         # Aqui aplicamos a regra de negócio: redirecionamento para criar tarefa
-        return redirect("criar_tarefa", numero_ticket=numero_ticket)
+        return redirect("criar_tarefa", ticket_number=ticket_number)
 
     # Caso não haja número do ticket nos parâmetros, renderizamos a página normalmente
     return render(request, "ticket_listar.html", {"tickets": tickets})

@@ -5,9 +5,9 @@ from ..forms.tarefa_form import TarefaForm
 
 
 @login_required
-def criar_tarefa(request, numero_ticket):  # O parâmetro numero_ticket é obrigatório
+def criar_tarefa(request, ticket_number):  # O parâmetro ticket_number é obrigatório
     # Tenta buscar o Ticket pelo número. Gera erro 404 se não encontrar.
-    ticket = get_object_or_404(Ticket, numero_escritorio=numero_ticket)
+    ticket = get_object_or_404(Ticket, numero_escritorio=ticket_number)
 
     # Recupera os anexos associados ao Ticket
     anexos = Anexo.objects.filter(ticket=ticket)
