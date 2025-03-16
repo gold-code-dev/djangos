@@ -1,204 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Tarefa</title>
+    <title>Detalhe do Ticket</title>
     <style>
-        /* Estilo visual do Gmail */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            color: #202124;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            border-top: 3px solid #4285f4; /* Barra azul superior */
-        }
-
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #dadce0; /* Divisão clara */
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 5px;
-            color: #202124;
-        }
-
-        p {
-            color: #5f6368;
-            font-size: 14px;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-size: 14px;
-            font-weight: bold;
-            display: block;
-            color: #202124;
-        }
-
-        input, textarea, select {
+        table {
             width: 100%;
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 1px solid black;
+        }
+        th, td {
             padding: 10px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #202124;
-            background-color: #f8f9fa;
-            margin-top: 5px;
+            text-align: left;
         }
-
-        textarea {
-            resize: vertical;
-            height: 100px;
+        th {
+            background-color: #f2f2f2;
+            width: 20%;
         }
-
-        input[type="file"] {
-            border: none;
-            background-color: white;
-        }
-
-        .button-group {
-            margin-top: 20px;
-        }
-
-        button {
-            background-color: #1a73e8;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background-color: #1662c4;
-        }
-
-        .btn-secondary {
-            background-color: #f1f3f4;
-            color: #202124;
-            margin-left: 10px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #dadce0;
-        }
-
-        .attachment-list {
-            margin-top: 15px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-        }
-
-        .attachment-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #dadce0;
-            padding: 10px 0;
-        }
-
-        .attachment-item:last-child {
-            border-bottom: none;
-        }
-
-        .attachment-item a {
-            color: #4285f4;
+        a {
+            color: #007BFF;
             text-decoration: none;
         }
-
-        .attachment-item a:hover {
+        a:hover {
             text-decoration: underline;
+            color: #0056b3;
+        }
+        .buttons-container {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Criar Nova Tarefa</h1>
-            <p>Organize suas tarefas e anexe arquivos para acompanhar melhor suas atividades</p>
-        </div>
+    <h1>Detalhes do Ticket</h1>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket</th>
+                <th>Tipo</th>
+                <th>Prazo</th>
+                <th>Empresa</th>
+                <th>Criado pelo Contador</th>
+                <th>Data da Solicitação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ ticket.numero_escritorio }}</td>
+                <td>{{ ticket.get_tipo_display }}</td>
+                <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
+                <td>{{ ticket.nome_empresa }}</td>
+                <td>{{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</td>
+                <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
+            </tr>
+        </thead>
+    </table>
+
+    <!-- Detalhe adicional, como descrição -->
+    {% if ticket.descricao %}
+        <h3>Descrição</h3>
+        <p>{{ ticket.descricao }}</p>
+    {% endif %}
+
+    <!-- Seção para anexos -->
+    <h2>Anexos</h2>
+    {% if anexos %}
+        <ul>
+            {% for anexo in anexos %}
+                <li>
+                    <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a>
+                    ({{ anexo.enviado_em|date:"d/m/Y H:i" }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum anexo disponível.</p>
+    {% endif %}
+
+    <!-- Formulário para upload de novos anexos -->
+    <div style="margin-top:20px;">
+        <h3>Adicionar Anexo:</h3>
         <form method="post" enctype="multipart/form-data">
-            <!-- Campo para o título da tarefa -->
-            <div class="form-group">
-                <label for="task-title">Título da Tarefa</label>
-                <input type="text" id="task-title" name="task_title" placeholder="Digite o título da tarefa" required>
-            </div>
-
-            <!-- Campo para descrição da tarefa -->
-            <div class="form-group">
-                <label for="task-desc">Descrição</label>
-                <textarea id="task-desc" name="task_description" placeholder="Detalhe a tarefa a ser realizada"></textarea>
-            </div>
-
-            <!-- Campo para selecionar prioridade -->
-            <div class="form-group">
-                <label for="priority">Prioridade</label>
-                <select id="priority" name="priority">
-                    <option value="alta">Alta</option>
-                    <option value="media">Média</option>
-                    <option value="baixa">Baixa</option>
-                </select>
-            </div>
-
-            <!-- Campo para anexar arquivos -->
-            <div class="form-group">
-                <label for="attachments">Anexos</label>
-                <input type="file" id="attachments" name="attachments[]" multiple>
-            </div>
-
-            <!-- Lista dinâmica de anexos (exemplo de renderização via backend/template engine) -->
-            <div class="attachment-list">
-                <h2>Anexos Recentes</h2>
-                <div class="attachment-item">
-                    <a href="#" target="_blank">Documento1.pdf</a>
-                    <span>Enviado em: 20/10/2023 15:30</span>
-                </div>
-                <div class="attachment-item">
-                    <a href="#" target="_blank">Imagem.png</a>
-                    <span>Enviado em: 20/10/2023 15:32</span>
-                </div>
-                <!-- Exemplo com for loop em um template:
-                {% for attachment in attachments %}
-                    <div class="attachment-item">
-                        <a href="{{ attachment.url }}" target="_blank">{{ attachment.name }}</a>
-                        <span>Enviado em: {{ attachment.created_at|date:"d/m/Y H:i" }}</span>
-                    </div>
-                {% endfor %}
-                 -->
-            </div>
-
-            <!-- Botões -->
-            <div class="button-group">
-                <button type="submit">Criar Tarefa</button>
-                <button type="button" class="btn-secondary" onclick="window.location.href='/'">Cancelar</button>
-            </div>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Adicionar Anexo</button>
         </form>
     </div>
+
+    <div style="margin-top: 20px;">
+        <button onclick="location.href='{% url 'ticket_listar' %}'" class="btn btn-secondary">Voltar à Lista de Tickets</button>
+    </div>
+
 </body>
 </html>
