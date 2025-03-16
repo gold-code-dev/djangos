@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Detalhe do Ticket</title>
+    <title>Detalhes do Ticket</title>
     <style>
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        table, td, th {
+        table, th, td {
             border: 1px solid black;
         }
         th, td {
             padding: 10px;
             text-align: left;
+            width: auto; /* sem largura fixa para manter coerência com a lista */
         }
         th {
             background-color: #f2f2f2;
-            width: 20%;
         }
         a {
             color: #007BFF;
@@ -24,10 +24,6 @@
         }
         a:hover {
             text-decoration: underline;
-            color: #0056b3;
-        }
-        .buttons-container {
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -54,33 +50,26 @@
                 <td>{{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</td>
                 <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
             </tr>
-        </thead>
+        </tbody>
     </table>
 
-    <!-- Detalhe adicional, como descrição -->
     {% if ticket.descricao %}
-        <h3>Descrição</h3>
+        <h3>Descrição:</h3>
         <p>{{ ticket.descricao }}</p>
     {% endif %}
 
-    <!-- Seção para anexos -->
-    <h2>Anexos</h2>
+    <h3>Anexos</h3>
     {% if anexos %}
         <ul>
             {% for anexo in anexos %}
-                <li>
-                    <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a>
-                    ({{ anexo.enviado_em|date:"d/m/Y H:i" }})
-                </li>
+                <li><a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a> ({{ anexo.enviado_em|date:"d/m/Y H:i" }})</li>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nenhum anexo disponível.</p>
-    {% endif %}
+            </ul>
+        {% else %}
+            <p>Nenhum anexo adicionado.</p>
+        {% endif %}
 
-    <!-- Formulário para upload de novos anexos -->
-    <div style="margin-top:20px;">
-        <h3>Adicionar Anexo:</h3>
+    <div style="margin-top: 20px;">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
@@ -89,7 +78,7 @@
     </div>
 
     <div style="margin-top: 20px;">
-        <button onclick="location.href='{% url 'ticket_listar' %}'" class="btn btn-secondary">Voltar à Lista de Tickets</button>
+        <button onclick="location.href='{% url 'ticket_listar' %}'">Voltar à lista de Tickets</button>
     </div>
 
 </body>
