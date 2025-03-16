@@ -27,6 +27,11 @@
 
     {% include "ticket_detalhe_task.html" %}
 
+    <!-- Botões para navegação -->
+    <div style="margin-top: 20px;">
+        <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
+        <button onclick="location.href='{% url 'ticket_listar' %}'" class="btn btn-primary">Listar Tickets</button>
+    </div>
 
 </body>
 </html>
