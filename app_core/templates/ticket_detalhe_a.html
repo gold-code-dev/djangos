@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<table>
+    <thead>
+        <tr>
+            <th>Ticket</th>
+            <th>Tipo</th>
+            <th>Prazo</th>
+            <th>Empresa</th>
+            <th>Criado pelo Contador</th>
+            <th>Data da Solicitação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ ticket.numero_escritorio }}</td>
+            <td>{{ ticket.get_tipo_display }}</td>
+            <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
+            <td>{{ ticket.nome_empresa }}</td>
+            <td>{{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</td>
+            <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
+        </tr>
+    </tbody>
+</table>

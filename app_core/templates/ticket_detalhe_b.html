@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% if tarefas %}
+    <h2>Tarefas deste Ticket</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Título</th>
+                <th>Responsável</th>
+                <th>Status</th>
+                <th>Data Criação</th>
+                <th>Data Conclusão</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarefa in tarefas %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ tarefa.titulo }}</td>
+                    <td>{{ tarefa.responsavel.get_full_name|default:tarefa.responsavel.username }}</td>
+                    <td>{{ tarefa.get_status_display }}</td>
+                    <td>{{ tarefa.criado_em|date:"d/m/Y H:i" }}</td>
+                    <td>{% if tarefa.concluido_em %}{{ tarefa.concluido_em|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align:center; margin: 10px 0;"><strong>Este ticket não possui tarefas cadastradas.</strong></p>
+{% endif %}

@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<h2>Anexos</h2>
+{% if anexos %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nome do Arquivo</th>
+                <th>Data de Envio</th>
+                <th>Abrir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for anexo in anexos %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ anexo.nome }}</td>
+                    <td>{{ anexo.enviado_em|date:"d/m/Y H:i" }}</td>
+                    <td><a href="{{ anexo.arquivo.url }}" target="_blank">Abrir Arquivo</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhum anexo adicionado.</p>
+{% endif %}
