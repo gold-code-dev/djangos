@@ -100,41 +100,6 @@
             color: #1f2937;
         }
 
-        .ticket-type {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            text-align: center;
-            min-width: 100px;
-        }
-
-        .type-suporte {
-            background-color: #e0f2fe;
-            color: #0284c7;
-        }
-
-        .type-consultoria {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-
-        .type-urgente {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-
-        .deadline {
-            white-space: nowrap;
-            font-size: 14px;
-        }
-
-        .deadline-near {
-            color: #dc2626;
-            font-weight: 500;
-        }
-
         .user-avatar {
             width: 28px;
             height: 28px;
@@ -152,85 +117,6 @@
         .user-name {
             display: inline;
             vertical-align: middle;
-            font-size: 14px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            font-weight: 500;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-
-        .btn-secondary {
-            background-color: #fff;
-            border-color: #e2e8f0;
-            color: #64748b;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            font-weight: 500;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f8fafc;
-            border-color: #cbd5e1;
-            color: #475569;
-        }
-
-        .btn i {
-            margin-right: 6px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
-            color: #cbd5e1;
-            margin-bottom: 16px;
-        }
-
-        .empty-state-text {
-            font-size: 18px;
-            color: #64748b;
-            font-weight: 500;
-            margin-bottom: 24px;
-        }
-
-        .search-filter-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .search-box {
-            max-width: 300px;
-        }
-
-        .filter-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        @media (max-width: 992px) {
-            .ticket-table-wrapper {
-                overflow-x: auto;
-            }
-
-            .search-filter-row {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .search-box {
-                max-width: 100%;
-            }
         }
     </style>
 </head>
@@ -253,17 +139,6 @@
                            id="searchInput" aria-label="Buscar">
                 </div>
             </div>
-            <div class="filter-controls">
-                <select class="form-select" aria-label="Filtrar por tipo">
-                    <option value="" selected>Todos os tipos</option>
-                    <option value="1">Suporte</option>
-                    <option value="2">Consultoria</option>
-                    <option value="3">Urgente</option>
-                </select>
-                <button class="btn btn-secondary">
-                    <i class="bi bi-funnel"></i> Filtros
-                </button>
-            </div>
         </div>
 
         <div class="card">
@@ -273,9 +148,7 @@
                     <thead>
                         <tr>
                             <th>Ticket</th>
-                            <th>Tipo</th>
                             <th>Empresa</th>
-                            <th>Prazo</th>
                             <th>Solicitante</th>
                             <th>Data da Solicitação</th>
                         </tr>
@@ -285,23 +158,10 @@
                         <tr>
                             <td class="ticket-number">#{{ ticket.numero_escritorio }}</td>
                             <td>
-                                {% if ticket.tipo == 1 %}
-                                <div class="ticket-type type-suporte">Suporte</div>
-                                {% elif ticket.tipo == 2 %}
-                                <div class="ticket-type type-consultoria">Consultoria</div>
-                                {% else %}
-                                <div class="ticket-type type-urgente">Urgente</div>
-                                {% endif %}
-                            </td>
-                            <td>
                                 <a href="{% url 'ticket_detalhe' ticket.id %}" class="ticket-link">
                                     {{ ticket.nome_empresa|slice:":50" }}
                                     {% if ticket.nome_empresa|length > 50 %}...{% endif %}
                                 </a>
-                            </td>
-                            <td class="deadline {% if ticket.prazo|date:'Y-m-d' < now|date:'Y-m-d' %}deadline-near{% endif %}">
-                                <i class="bi bi-calendar-event me-1"></i>
-                                {{ ticket.prazo|date:"d/m/Y H:i" }}
                             </td>
                             <td>
                                 <div class="user-avatar">
