@@ -1,1 +1,47 @@
-<h1>oi</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Lista de Atendimentos</h1>
+    
+    <div class="mb-3">
+        <a href="{% url 'criar_atendimento' %}" class="btn btn-primary">Novo Atendimento</a>
+    </div>
+    
+    {% if atendimentos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Escritório</th>
+                    <th>Empresa</th>
+                    <th>Escritório</th>
+                    <th>Criado em</th>
+                    <th>Criado por</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for atendimento in atendimentos %}
+                <tr>
+                    <td>{{ atendimento.id }}</td>
+                    <td>{{ atendimento.id_atendimento_escritorio }}</td>
+                    <td>{{ atendimento.nome_empresa }}</td>
+                    <td>{{ atendimento.escritorio }}</td>
+                    <td>{{ atendimento.criado_em|date:"d/m/Y H:i" }}</td>
+                    <td>{{ atendimento.criado_por.username }}</td>
+                    <td>
+                        <a href="{% url 'detalhe_atendimento' atendimento.id %}" class="btn btn-sm btn-info">Detalhes</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            <p>Não há atendimentos cadastrados no momento.</p>
+            <p>Clique em "Novo Atendimento" para criar o primeiro.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
