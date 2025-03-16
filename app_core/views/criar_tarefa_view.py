@@ -34,6 +34,6 @@ def criar_tarefa(request, numero_ticket):  # O parâmetro numero_ticket é obrig
     # Renderiza o formulário, passando informações do ticket e anexos
     return render(
         request,
-        'app_core/criar_tarefa.html',
+        'criar_tarefa.html',
         {'form': form, 'ticket': ticket, 'anexos': anexos}
     )

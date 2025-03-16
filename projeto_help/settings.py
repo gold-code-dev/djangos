@@ -54,10 +54,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'projeto_help.urls'
 
+BASE_DIR_v2 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
+        # 'DIRS': [BASE_DIR / 'templates' ],  # Adicione o diretório base dos seus templates
+        # 'DIRS': [os.path.join(BASE_DIR_v2, 'templates/app_core/')],  # Caminho correto
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

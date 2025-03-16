@@ -238,7 +238,7 @@
     <div class="container">
         <div class="header-section">
             <h1>Meus Tickets</h1>
-            <button onclick="location.href='{% url 'criar_ticket' %}'" class="btn btn-primary">
+            <button onclick="location.href='{% url 'ticket_criar' %}'" class="btn btn-primary">
                 <i class="bi bi-plus-lg"></i> Novo Ticket
             </button>
         </div>
@@ -326,7 +326,7 @@
                     <i class="bi bi-ticket-perforated"></i>
                 </div>
                 <p class="empty-state-text">Nenhum ticket criado até agora.</p>
-                <button onclick="location.href='{% url 'criar_ticket' %}'" class="btn btn-primary">
+                <button onclick="location.href='{% url 'ticket_criar' %}'" class="btn btn-primary">
                     <i class="bi bi-plus-lg"></i> Criar Primeiro Ticket
                 </button>
             </div>

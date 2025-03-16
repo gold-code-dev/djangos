@@ -4,7 +4,7 @@ from ..models import Ticket
 
 
 @login_required
-def tickets_lista(request):
+def ticket_listar(request):
     # Verifica o tipo de usuário logado e consulta os tickets associados ao escritório
     if hasattr(request.user, 'escritorio'):  # Usuário é contador
         tickets = Ticket.objects.filter(escritorio=request.user.escritorio).order_by('-criado_em')
@@ -23,4 +23,4 @@ def tickets_lista(request):
         return redirect("criar_tarefa", numero_ticket=numero_ticket)
 
     # Caso não haja número do ticket nos parâmetros, renderizamos a página normalmente
-    return render(request, "app_core/lista_tickets.html", {"tickets": tickets})
+    return render(request, "ticket_listar.html", {"tickets": tickets})

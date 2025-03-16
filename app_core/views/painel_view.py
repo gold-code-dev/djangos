@@ -18,4 +18,4 @@ def painel_view(request):
         # 'escritorio': "Escritório Modelo",  # Substitua por uma variável ou busca no banco de dados
         # 'usuarios': usuarios,  # Incluímos a lista de usuários
     }
-    return render(request, 'app_core/painel.html', context)
+    return render(request, 'painel.html', context)

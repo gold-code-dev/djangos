@@ -6,7 +6,7 @@ from django.http import HttpResponseForbidden
 
 
 @login_required
-def criar_ticket(request):
+def ticket_criar(request):
     # Garante que só vem do painel (se necessário)
     if request.META.get('HTTP_REFERER') is None or 'painel/' not in request.META.get('HTTP_REFERER'):
         return HttpResponseForbidden(
@@ -35,6 +35,6 @@ def criar_ticket(request):
     # Renderiza o formulário
     return render(
         request,
-        "app_core/criar_ticket.html",
+        "ticket_criar.html",
         {"form": form}  # Apenas o formulário é enviado ao template
     )

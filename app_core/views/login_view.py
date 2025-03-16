@@ -17,7 +17,7 @@ def login_view(request):
             # Verificação de campos ausentes
             return render(
                 request,
-                'app_core/login.html',
+                'login.html',
                 {'error': 'Os campos de usuário e senha são obrigatórios!'}
             )
 
@@ -31,12 +31,12 @@ def login_view(request):
         else:
             return render(
                 request,
-                'app_core/login.html',
+                'login.html',
                 {'error': 'Senha ou email incorretos!'}
             )
 
     elif request.method == 'GET':
-        return render(request, 'app_core/login.html')
+        return render(request, 'login.html')
 
     # Resposta para métodos não permitidos
     return HttpResponseNotAllowed(['GET', 'POST'])

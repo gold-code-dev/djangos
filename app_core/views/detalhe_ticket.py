@@ -23,7 +23,7 @@ def detalhe_ticket(request, ticket_id):
         form = AnexoForm()
 
     # Renderizar o template e passar os dados do ticket, anexos e formulário
-    return render(request, 'app_core/detalhe_ticket.html', {
+    return render(request, 'ticket_detalhe.html', {
         'ticket': ticket,
         'anexos': anexos,
         'form': form,
