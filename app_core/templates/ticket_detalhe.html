@@ -6,14 +6,13 @@
         table {
             width: 100%;
             border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
+            margin-bottom: 20px;
         }
         th, td {
+            border: 1px solid #000;
             padding: 10px;
             text-align: left;
-            width: auto; /* sem largura fixa para manter coerência com a lista */
+            width: auto;
         }
         th {
             background-color: #f2f2f2;
@@ -25,11 +24,15 @@
         a:hover {
             text-decoration: underline;
         }
+        h2 {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Detalhes do Ticket</h1>
 
+    <!-- Tabela de detalhes do ticket -->
     <table>
         <thead>
             <tr>
@@ -54,22 +57,70 @@
     </table>
 
     {% if ticket.descricao %}
-        <h3>Descrição:</h3>
+        <h2>Descrição</h2>
         <p>{{ ticket.descricao }}</p>
     {% endif %}
 
-    <h3>Anexos</h3>
-    {% if anexos %}
-        <ul>
-            {% for anexo in anexos %}
-                <li><a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.nome }}</a> ({{ anexo.enviado_em|date:"d/m/Y H:i" }})</li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>Nenhum anexo adicionado.</p>
-        {% endif %}
+    <!-- Agora as tarefas abaixo -->
+    {% if tarefas %}
+        <h2>Tarefas deste Ticket</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Responsável</th>
+                    <th>Status</th>
+                    <th>Data Criação</th>
+                    <th>Data Conclusão</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tarefa in tarefas %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ tarefa.titulo }}</td>
+                        <td>{{ tarefa.responsavel.get_full_name|default:tarefa.responsavel.username }}</td>
+                        <td>{{ tarefa.get_status_display }}</td>
+                        <td>{{ tarefa.criado_em|date:"d/m/Y H:i" }}</td>
+                        <td>{% if tarefa.concluido_em %}{{ tarefa.concluido_em|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align:center; margin: 10px 0;"><strong>Este ticket não possui tarefas cadastradas.</p>
+    {% endif %}
 
+    <h2>Anexos</h2>
+    {% if anexos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome do Arquivo</th>
+                    <th>Data de Envio</th>
+                    <th>Abrir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for anexo in anexos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ anexo.nome }}</td>
+                        <td>{{ anexo.enviado_em|date:"d/m/Y H:i" }}</td>
+                        <td><a href="{{ anexo.arquivo.url }}" target="_blank">Abrir Arquivo</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum anexo adicionado.</p>
+    {% endif %}
+
+    <!-- Adicionar novo anexo -->
     <div style="margin-top: 20px;">
+        <h3>Adicionar Anexo:</h3>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
@@ -77,8 +128,9 @@
         </form>
     </div>
 
+    <!-- Botão para voltar à lista -->
     <div style="margin-top: 20px;">
-        <button onclick="location.href='{% url 'ticket_listar' %}'">Voltar à lista de Tickets</button>
+        <button onclick="location.href='{% url 'ticket_listar' %}'" class="btn btn-secondary">Voltar à lista de Tickets</button>
     </div>
 
 </body>
