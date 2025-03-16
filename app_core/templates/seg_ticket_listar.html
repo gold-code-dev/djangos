@@ -30,6 +30,7 @@
 <body>
     <h3>Meus Tickets</h3>
 
+    <!-- Verifica se há tickets -->
     {% if tickets %}
         <table>
             <thead>
@@ -40,7 +41,6 @@
                     <th>Usuário</th>
                     <th>Data</th>
                     <th>Prazo</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,27 +48,33 @@
                     <tr>
                         <td>{{ ticket.numero_escritorio }}</td>
                         <td>{{ ticket.get_tipo_display }}</td>
+
+                        <!-- Nome da Empresa agora é um link -->
                         <td>
                             <a href="{% url 'ticket_detalhe' ticket.id %}">
                                 {{ ticket.nome_empresa|slice:":255" }}
                             </a>
                         </td>
+
                         <td>
                             {{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}
                         </td>
+
                         <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
+
                         <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
-                        <td>Implantar</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
+        <!-- Caso não haja nenhum ticket -->
         <p style="text-align: center; font-weight: bold; font-size: 18px; color: #555;">
             Nenhum ticket criado até agora.
         </p>
     {% endif %}
 
+    <!-- Botões para navegação -->
     <div style="margin-top: 20px;">
         <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
         <button onclick="location.href='{% url 'ticket_criar' %}'" class="btn btn-primary">Novo Ticket</button>
