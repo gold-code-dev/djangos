@@ -31,9 +31,9 @@ class Ticket(models.Model):
     def save(self, *args, **kwargs):
         """Adiciona a lógica para o número único por escritório."""
         if not self.pk:  # Apenas para novos objetos
-            ultimo_ticket = Ticket.objects.filter(escritorio=self.escritorio).order_by('numero_escritorio').last()
-            if ultimo_ticket:
-                self.numero_escritorio = ultimo_ticket.numero_escritorio + 1
+            ticket_ultimo = Ticket.objects.filter(escritorio=self.escritorio).order_by('numero_escritorio').last()
+            if ticket_ultimo:
+                self.numero_escritorio = ticket_ultimo.numero_escritorio + 1
             else:
                 self.numero_escritorio = 1  # Primeiro ticket do escritório
 
