@@ -1,25 +1,35 @@
 <h2>Documentos</h2>
-{% if anexos %}
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nome do Arquivo</th>
-                <th>Data de Envio</th>
-                <th>Abrir</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for anexo in anexos %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ anexo.nome }}</td>
-                    <td>{{ anexo.enviado_em|date:"d/m/Y H:i" }}</td>
-                    <td><a href="{{ anexo.arquivo.url }}" target="_blank">Abrir Arquivo</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Nenhum documento adicionado.</p>
-{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Documento</th>
+            <th>Data de Envio</th>
+            <th>Abrir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Contrato_Servico.pdf</td>
+            <td>01/02/2024 10:20</td>
+            <td><a href="#" target="_blank">Visualizar</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Comprovante_Pagamento.jpeg</td>
+            <td>05/02/2024 15:30</td>
+            <td><a href="#" target="_blank">Visualizar</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Documentacao_Cliente.zip</td>
+            <td>07/02/2024 09:00</td>
+            <td><a href="#" target="_blank">Visualizar</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Caso não existam documentos, usar como alternativo: -->
+<!-- <p style="text-align:center"><strong>Nenhum documento adicionado.</strong></p> -->
