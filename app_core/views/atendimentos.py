@@ -17,7 +17,7 @@ def criar_atendimento(request):
     else:
         form = AtendimentoForm()
 
-    return render(request, 'criar_atendimento.html', {'form': form})
+    return render(request, 'app_core/criar_atendimento.html', {'form': form})
 
 
 @login_required
@@ -29,4 +29,4 @@ def lista_atendimentos(request):
 @login_required
 def detalhe_atendimento(request, atendimento_id):
     atendimento = get_object_or_404(Atendimento, id=atendimento_id)
-    return render(request, 'detalhe_atendimento.html', {'atendimento': atendimento})
+    return render(request, 'app_core/detalhe_atendimento.html', {'atendimento': atendimento})
