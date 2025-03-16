@@ -4,6 +4,7 @@ from .ticket import Ticket
 from .tarefa import Tarefa
 from .anexo import Anexo
 from .tarefa_anexo import TarefaAnexo
+from .atendimento import Atendimento
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     'Tarefa',
     'Anexo',
     'TarefaAnexo',
+    'Atendimento',
 ]
