@@ -4,7 +4,7 @@ from ..models import Ticket
 
 
 @login_required
-def lista_tickets(request):
+def tickets_lista(request):
     # Verifica o tipo de usuário logado e consulta os tickets associados ao escritório
     if hasattr(request.user, 'escritorio'):  # Usuário é contador
         tickets = Ticket.objects.filter(escritorio=request.user.escritorio).order_by('-criado_em')

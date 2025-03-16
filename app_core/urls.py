@@ -10,7 +10,7 @@ urlpatterns = [
     path("", lambda request: redirect("login"), name="home"),  # Redirecionar como padrão para login
 
     # path('painel/tickets/novo/', views.criar_ticket, name="criar_ticket"),
-    path('painel/tickets/lista/', views.lista_tickets, name='listar_tickets'),  # Configura a rota 'lista_tickets'
+    path('painel/tickets/lista/', views.tickets_lista, name='listar_tickets'),  # Configura a rota 'lista_tickets'
 
     # path('tarefas/criar/', views.criar_tarefa, name='criar_tarefa'),
     # path('painel/tickets/tarefas/criar/<int:numero_ticket>/', views.criar_tarefa, name='criar_tarefa'),
