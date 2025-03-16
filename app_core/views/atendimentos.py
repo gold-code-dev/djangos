@@ -23,7 +23,7 @@ def criar_atendimento(request):
 @login_required
 def lista_atendimentos(request):
     atendimentos = Atendimento.objects.all().order_by('-criado_em')
-    return render(request, 'lista_atendimentos.html', {'atendimentos': atendimentos})
+    return render(request, 'app_core/lista_atendimentos.html', {'atendimentos': atendimentos})
 
 
 @login_required
