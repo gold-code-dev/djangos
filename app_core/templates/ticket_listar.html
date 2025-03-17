@@ -46,6 +46,7 @@
                     <th>Honorários Urgência</th>
                     <th>Última Movimentação</th>
                     <th>Status</th>
+                    <th>Idade (dias)</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,26 +65,30 @@
                         <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
                         <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
 
-                        <!-- Exemplo -->
-                        <td>Alta</td> <!-- ajuste posteriormente -->
-                        <td>Exemplo motivo</td> <!-- ajuste posteriormente -->
-                        <td>Pago em 01/04/2024</td> <!-- ajuste posteriormente -->
-                        <td>Não Pago</td> <!-- ajuste posteriormente -->
-                        <td>Exemplo de movimentação</td> <!-- ajuste posteriormente -->
+                        <!-- Colunas exemplo, ajustar posteriormente -->
+                        <td>Alta</td>
+                        <td>Exemplo motivo</td>
+                        <td>Pago em 01/04/2024</td>
+                        <td>Não Pago</td>
+                        <td>Exemplo de movimentação</td>
 
                         <td>Implantar</td>
+
+                        <!-- Idade da tarefa simulada apenas para testes -->
+                        <td>{{ forloop.counter|add:"3" }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
         <p style="text-align: center; font-weight: bold; font-size: 18px; color: #555;">
-            Nenhum ticket criado até agora.
+            Nenhum ticket encontrado.
         </p>
     {% endif %}
 
-    <div style="margin-top: 20px;">
-        <button onclick="location.href='{% url 'painel' %}'" class="btn btn-secondary">Voltar ao Painel</button>
+    <br>
+    <div>
+        <button onclick="location.href='{% url 'ticket_criar' %}'" class="btn btn-primary">Novo Ticket</button>
         <button onclick="location.href='{% url 'ticket_criar' %}'" class="btn btn-primary">Novo Ticket</button>
     </div>
 </body>
