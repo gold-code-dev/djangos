@@ -45,137 +45,94 @@
             <td>-</td>
             <td>5</td>
         </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>4</td>
-            <td>Revisar formulário cadastral</td>
-            <td>Pedro Henrique</td>
-            <td>Suporte</td>
-            <td>Concluída</td>
-            <td>08/04/2024 11:20</td>
-            <td>09/04/2024 15:45</td>
-            <td>2</td>
-        </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>5</td>
-            <td>Atualizar sistema financeiro</td>
-            <td>Ana Luisa</td>
-            <td>Contador Responsável</td>
-            <td>Pendente</td>
-            <td>10/04/2024 08:20</td>
-            <td>-</td>
-            <td>3</td>
-        </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>6</td>
-            <td>Entrar em contato com fornecedor X</td>
-            <td>Felipe Almeida</td>
-            <td>Escritório</td>
-            <td>Em andamento</td>
-            <td>10/04/2024 11:45</td>
-            <td>-</td>
-            <td>2</td>
-        </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>6</td>
-            <td>Preparar relatório mensal</td>
-            <td>José Carlos</td>
-            <td>Suporte</td>
-            <td>Pendente</td>
-            <td>11/04/2024 14:50</td>
-            <td>-</td>
-            <td>1</td>
-        </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>6</td>
-            <td>Contato inicial com cliente</td>
-            <td>Lucas Lima</td>
-            <td>Contador Responsável</td>
-            <td>Concluída</td>
-            <td>03/04/2024 09:30</td>
-            <td>03/04/2024 18:00</td>
-            <td>0</td>
-        </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>7</td>
-            <td>Preparação relatório mensal</td>
-            <td>Julia Campos</td>
-            <td>Escritório</td>
-            <td>Pendente</td>
-            <td>08/04/2024 16:00</td>
-            <td>-</td>
-            <td>4</td>
-        </tr>
-        <tr onclick="openModalDetail(this)">
-            <td>8</td>
-            <td>Validação de dados fiscais</td>
-            <td>Carlos Mendes</td>
-            <td>Suporte</td>
-            <td>Em andamento</td>
-            <td>09/04/2024 09:30</td>
-            <td>-</td>
-            <td>3</td>
-        </tr>
+        <!-- Pode adicionar mais linhas aqui -->
     </tbody>
 </table>
 
-<!-- Modal -->
+<!-- Modal que aparece quando clica nas linhas -->
 <div id="taskModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <div id="taskDetails"></div>
-    </div>
-</div>
-
-<script>
-function openModalDetail(row) {
-    const cells = row.querySelectorAll("td");
-    const modalContent = `
-        <strong>Nº:</strong> ${cells[0].innerText}<br>
-        <strong>Tarefa:</strong> ${cells[1].innerText}<br>
-        <strong>Usuário:</strong> ${cells[2].innerText}<br>
-        <strong>Destinatário:</strong> ${cells[3].innerText}<br>
-        <strong>Status:</strong> ${cells[4].innerText}<br>
-        <strong>Data:</strong> ${cells[5].innerText}<br>
-        <strong>Prazo:</strong> ${cells[6].innerText}<br>
-        <strong>Idade (dias):</strong> ${cells[7].innerText}
-    `;
-    document.querySelector('#modalContentDetail').innerHTML = modalContent;
-    document.querySelector('#taskModal').style.display = 'block';
-}
-
-function openModalDetail(row){
-    let cells = row.cells;
-    const modalContentDetail = `
-        <strong>Nº:</strong> ${cells[0].innerText}<br>
-        <strong>Tarefa:</strong> ${cells[1].innerText}<br>
-        <strong>Usuário:</strong> ${cells[2].innerText}<br>
-        <strong>Destinatário:</strong> ${cells[3].innerText}<br>
-        <strong>Status:</strong> ${cells[4].innerText}<br>
-        <strong>Data:</strong> ${cells[5].innerText}<br>
-        <strong>Prazo:</strong> ${cells[6].innerText}<br>
-        <strong>Idade (dias):</strong> ${cells[7].innerText}
-    `;
-    document.getElementById('taskModal').style.display = 'block';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.close-modal').onclick = () => {
-        document.querySelector('#taskModal').style.display = "none";
-    };
-    window.onclick = function(e) {
-        if (e.target == document.querySelector('#taskModal')) {
-            document.querySelector('#taskModal').style.display = "none";
-        }
-    };
-});
-</script>
-
-<!-- HTML Modal (pop-up) -->
-<div id="taskModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
         <div id="modalContentDetail"></div>
     </div>
 </div>
+
+<!-- Estilo CSS para boa exibição do modal -->
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        left: 0; top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+        overflow:auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+        max-width: 600px;
+        margin: 10% auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        cursor: pointer;
+    }
+    tr:hover {
+        background-color: #f2f2f2;
+    }
+    tbody tr {
+        cursor: pointer;
+    }
+</style>
+
+<!-- JavaScript para comportamento funcional real -->
+<script>
+    function openModalDetail(row) {
+        const cells = row.getElementsByTagName('td');
+        document.getElementById('modalContentDetail').innerHTML = `
+            <strong>Nº:</strong> ${cells[0].innerText}<br>
+            <strong>Tarefa:</strong> ${cells[1].innerText}<br>
+            <strong>Usuário:</strong> ${cells[2].innerText}<br>
+            <strong>Destinatário:</strong> ${cells[3].innerText}<br>
+            <strong>Status:</strong> ${cells[4].innerText}<br>
+            <strong>Data:</strong> ${cells[5].innerText}<br>
+            <strong>Prazo:</strong> ${cells[6].innerText}<br>
+            <strong>Idade (dias):</strong> ${cells[7].innerText}`;
+        document.getElementById('taskModal').style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const span = document.querySelector('.close');
+        spanCloseEvent(span);
+        modalOutsideClickListener();
+    });
+
+    function spanCloseEvent(span) {
+        span.onclick = () => {
+            document.getElementById('taskModal').style.display = 'none';
+        };
+    }
+
+    function modalOutsideClickListener() {
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('taskModal')) {
+                document.getElementById('taskModal').style.display = 'none';
+            }
+        };
+    }
+</script>
 
 {% endblock %}
