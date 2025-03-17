@@ -1,30 +1,41 @@
-<h3>Tarefas do Ticket</h3>
-{% if tarefas %}
-    <h2>Tarefas deste Ticket</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Título</th>
-                <th>Responsável</th>
-                <th>Status</th>
-                <th>Data Criação</th>
-                <th>Data Conclusão</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tarefa in tarefas %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ tarefa.titulo }}</td>
-                    <td>{{ tarefa.responsavel.get_full_name|default:tarefa.responsavel.username }}</td>
-                    <td>{{ tarefa.get_status_display }}</td>
-                    <td>{{ tarefa.criado_em|date:"d/m/Y H:i" }}</td>
-                    <td>{% if tarefa.concluido_em %}{{ tarefa.concluido_em|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Nenhuma tarefas adicionada.</p>
-{% endif %}
+<h3>Tarefas</h3>
+
+<!-- Simulação visual de tarefas (dados fictícios apenas para teste visual) -->
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Responsável</th>
+            <th>Status</th>
+            <th>Data Criação</th>
+            <th>Data Conclusão</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Verificar documentos dos clientes</td>
+            <td>Maria Oliveira</td>
+            <td>Concluída</td>
+            <td>05/04/2024 09:00</td>
+            <td>05/04/2024 17:25</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Confirmar pagamento inicial</td>
+            <td>João Pedro</td>
+            <td>Em andamento</td>
+            <td>06/04/2024 14:30</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Enviar contrato para assinatura</td>
+            <td>Amanda Costa</td>
+            <td>Pendente</td>
+            <td>07/04/2024 10:15</td>
+            <td>-</td>
+        </tr>
+    </tbody>
+</table>
