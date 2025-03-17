@@ -1,3 +1,4 @@
+{% block content %}
 <h3>Tarefas</h3>
 
 <table>
@@ -6,7 +7,7 @@
             <th>Nº</th>
             <th>Tarefa</th>
             <th>Usuário</th>
-            <th>Destinatário</th> <!-- Nova coluna adicionada -->
+            <th>Destinatário</th>
             <th>Status</th>
             <th>Data</th>
             <th>Prazo</th>
@@ -14,35 +15,167 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr onclick="openModalDetail(this)">
             <td>1</td>
             <td>Verificar documentos dos clientes</td>
             <td>Maria Oliveira</td>
-            <td>Suporte</td> <!-- primeiro valor -->
-            <td>Concluída em 05/04/2024</td>
+            <td>Suporte</td>
+            <td>Concluída</td>
             <td>05/04/2024 09:00</td>
             <td>05/04/2024 17:25</td>
             <td>1</td>
         </tr>
-        <tr>
+        <tr onclick="openModalDetail(this)">
             <td>2</td>
             <td>Confirmar pagamento inicial</td>
             <td>João Pedro</td>
-            <td>Escritório</td> <!-- segundo valor -->
+            <td>Escritório</td>
             <td>Em andamento</td>
             <td>06/04/2024 14:30</td>
             <td>-</td>
             <td>6</td>
         </tr>
-        <tr>
+        <tr onclick="openModalDetail(this)">
             <td>3</td>
             <td>Enviar contrato para assinatura</td>
             <td>Amanda Costa</td>
-            <td>Contador Responsável</td> <!-- terceiro valor -->
+            <td>Contador Responsável</td>
             <td>Pendente</td>
             <td>07/04/2024 10:15</td>
             <td>-</td>
             <td>5</td>
         </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>4</td>
+            <td>Revisar formulário cadastral</td>
+            <td>Pedro Henrique</td>
+            <td>Suporte</td>
+            <td>Concluída</td>
+            <td>08/04/2024 11:20</td>
+            <td>09/04/2024 15:45</td>
+            <td>2</td>
+        </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>5</td>
+            <td>Atualizar sistema financeiro</td>
+            <td>Ana Luisa</td>
+            <td>Contador Responsável</td>
+            <td>Pendente</td>
+            <td>10/04/2024 08:20</td>
+            <td>-</td>
+            <td>3</td>
+        </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>6</td>
+            <td>Entrar em contato com fornecedor X</td>
+            <td>Felipe Almeida</td>
+            <td>Escritório</td>
+            <td>Em andamento</td>
+            <td>10/04/2024 11:45</td>
+            <td>-</td>
+            <td>2</td>
+        </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>6</td>
+            <td>Preparar relatório mensal</td>
+            <td>José Carlos</td>
+            <td>Suporte</td>
+            <td>Pendente</td>
+            <td>11/04/2024 14:50</td>
+            <td>-</td>
+            <td>1</td>
+        </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>6</td>
+            <td>Contato inicial com cliente</td>
+            <td>Lucas Lima</td>
+            <td>Contador Responsável</td>
+            <td>Concluída</td>
+            <td>03/04/2024 09:30</td>
+            <td>03/04/2024 18:00</td>
+            <td>0</td>
+        </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>7</td>
+            <td>Preparação relatório mensal</td>
+            <td>Julia Campos</td>
+            <td>Escritório</td>
+            <td>Pendente</td>
+            <td>08/04/2024 16:00</td>
+            <td>-</td>
+            <td>4</td>
+        </tr>
+        <tr onclick="openModalDetail(this)">
+            <td>8</td>
+            <td>Validação de dados fiscais</td>
+            <td>Carlos Mendes</td>
+            <td>Suporte</td>
+            <td>Em andamento</td>
+            <td>09/04/2024 09:30</td>
+            <td>-</td>
+            <td>3</td>
+        </tr>
     </tbody>
 </table>
+
+<!-- Modal -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="taskDetails"></div>
+    </div>
+</div>
+
+<script>
+function openModalDetail(row) {
+    const cells = row.querySelectorAll("td");
+    const modalContent = `
+        <strong>Nº:</strong> ${cells[0].innerText}<br>
+        <strong>Tarefa:</strong> ${cells[1].innerText}<br>
+        <strong>Usuário:</strong> ${cells[2].innerText}<br>
+        <strong>Destinatário:</strong> ${cells[3].innerText}<br>
+        <strong>Status:</strong> ${cells[4].innerText}<br>
+        <strong>Data:</strong> ${cells[5].innerText}<br>
+        <strong>Prazo:</strong> ${cells[6].innerText}<br>
+        <strong>Idade (dias):</strong> ${cells[7].innerText}
+    `;
+    document.querySelector('#modalContentDetail').innerHTML = modalContent;
+    document.querySelector('#taskModal').style.display = 'block';
+}
+
+function openModalDetail(row){
+    let cells = row.cells;
+    const modalContentDetail = `
+        <strong>Nº:</strong> ${cells[0].innerText}<br>
+        <strong>Tarefa:</strong> ${cells[1].innerText}<br>
+        <strong>Usuário:</strong> ${cells[2].innerText}<br>
+        <strong>Destinatário:</strong> ${cells[3].innerText}<br>
+        <strong>Status:</strong> ${cells[4].innerText}<br>
+        <strong>Data:</strong> ${cells[5].innerText}<br>
+        <strong>Prazo:</strong> ${cells[6].innerText}<br>
+        <strong>Idade (dias):</strong> ${cells[7].innerText}
+    `;
+    document.getElementById('taskModal').style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.close-modal').onclick = () => {
+        document.querySelector('#taskModal').style.display = "none";
+    };
+    window.onclick = function(e) {
+        if (e.target == document.querySelector('#taskModal')) {
+            document.querySelector('#taskModal').style.display = "none";
+        }
+    };
+});
+</script>
+
+<!-- HTML Modal (pop-up) -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalContentDetail"></div>
+    </div>
+</div>
+
+{% endblock %}
