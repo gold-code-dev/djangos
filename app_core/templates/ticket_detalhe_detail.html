@@ -1,4 +1,4 @@
-<h3 >Ticket</h3>
+<h3>Detalhes do Ticket</h3>
 
 <table>
     <thead>
@@ -6,9 +6,16 @@
             <th>Nº</th>
             <th>Tipo</th>
             <th>Empresa</th>
-            <th>Usuário</th>
-            <th>Data</th>
+            <th>Responsável</th>
+            <th>Data Criação</th>
             <th>Prazo</th>
+            <th>Urgência</th>
+            <th>Motivo da Urgência</th>
+            <th>Honorários</th>
+            <th>Honorários Urgência</th>
+            <th>Última Movimentação</th>
+            <th>Status</th>
+            <th>Idade (dias)</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +26,15 @@
             <td>{{ ticket.criado_por.get_full_name|default:ticket.criado_por.username }}</td>
             <td>{{ ticket.criado_em|date:"d/m/Y H:i" }}</td>
             <td>{{ ticket.prazo|date:"d/m/Y H:i" }}</td>
+            <td>{{ ticket.urgencia }}</td>
+            <td>{{ ticket.motivo_urgencia }}</td>
+            <td>{{ ticket.honorarios }}</td>
+            <td>{{ ticket.honorarios_urgencia }}</td>
+            <td>{{ ticket.ultima_movimentacao }}</td>
+            <td>{{ ticket.status }}</td>
+            <td>7</td> <!-- Valor fictício apenas para visualização -->
         </tr>
     </tbody>
 </table>
+
+</div>
